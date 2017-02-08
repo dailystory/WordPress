@@ -3,7 +3,7 @@ Contributors: dailystory, roberthoward
 Tags: dailystory, marketing, account based marketing, popups, optin, exit intent, mobile optins, lead gen, lead generation, welcome gate, mailchimp, marketing automation, analytics, marketing analytics, tracking code
 Requires at least: 4.0
 Tested up to: 4.7
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GNU General Public License v2.0 or later
 
 DailyStory helps you track, manage and convert visitors into subscribers and customers.
@@ -60,6 +60,10 @@ You can sign up for a DailyStory account by <a href="https://www.dailystory.com/
 Or, you can <a href="https://www.dailystory.com/trial">start a 30-day trial</a>.
 
 == Changelog ==
+
+= 1.0.2 =
+* Changed to support non-incremental numbers for web forms
+* Stubbed in support for new popup shortcode
 
 = 1.0.1 =
 * Fixed typos in readme and cleaned up some comments
