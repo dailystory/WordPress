@@ -154,10 +154,10 @@ class DailyStoryPluginAdmin {
                             <div class="inside">
                                 <p>
                                 <b>I'm already using DailyStory</b>
-                                <br>If you are already using DailyStory <a target='_blank' href='https://app.dailystory.com/Account/TrackCode/'>go here to get your Site ID</a> (may require you to login): [todo]
+                                <br>If you are already using DailyStory <a target='_blank' href='https://login.dailystory.com/login?ReturnUrl=%2FAccount%2FTrackCode'>go here to get your Site ID</a> (may require you to login).
                                 </p>
 								<p><b>I'm not using DailyStory</b>
-                                <br>First, <a target='_blank' href='https://www.dailystory.com/trial'>sign up for a free 30-day trial</a>. Then follow the instructions above to get your Site ID.</a></p>
+                                <br>First, <a target='_blank' href='https://login.dailystory.com/trial'>sign up for a free 30-day trial</a>. Then follow the instructions above to get your Site ID.</a></p>
 								<p><b>Learn more about WordPress Integration</b><br><a target='_blank' href='https://www.dailystory.com/integrations/wordpress'>Learn more about DailyStory's WordPress integration</a>, such as the available shortcodes.
                             </div>
                         </div> <!-- end postbox -->

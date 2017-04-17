@@ -17,9 +17,6 @@ class DailyStoryShortCodes {
 	        // Add the [ds-webform] shortcode
     	    add_shortcode('ds-webform', array( 'DailyStoryShortCodes', 'dailystory_webform_shortcode' ));
 
-	        // Add the [ds-exitintent] shortcode
-    	    add_shortcode('ds-exitintent', array( 'DailyStoryShortCodes', 'dailystory_exit_intent_shortcode' ));
-
 	        // Add the [ds-popup] shortcode
     	    add_shortcode('ds-popup', array( 'DailyStoryShortCodes', 'dailystory_popup_shortcode' ));
 
@@ -56,30 +53,6 @@ class DailyStoryShortCodes {
 	} // end get_data function
 
 	// ──────────────────────────────────────────────
-	// Routine for [ds-exitintent] shortcode, this shortcode 
-	// forces a dailystory exit intent to display (if it exists)
-	// ──────────────────────────────────────────────
-	public static function dailystory_exit_intent_shortcode($atts, $content=null) {
-
-    	// normalize attribute keys, lowercase
-    	$atts = array_change_key_case((array)$atts, CASE_LOWER);
- 
-    	// override default attributes with user attributes
-    	$popup_id = shortcode_atts(['id' => '0',], $atts, $tag);
-
-		$popup_id = esc_html__($popup_id['id'], 'ds-exitintent');
-
-		add_action('wp_footer', function ( $content ) use ($popup_id) {
-			echo '<!-- Added by WordPress shortcode -->' . "\n";
-			echo '<script type=\'text/javascript\'>' . "\n";
-			echo 'window.addEventListener(\'ds_popup_ready\', function (e) {' . "\n";
-			echo '	Ds.Pop.showPopupOnExit('. $popup_id . ');' . "\n";
-			echo '});' . "\n";
-			echo '</script>' . "\n";
-		});
-	}
-
-	// ──────────────────────────────────────────────
 	// Routine for [ds-popup] shortcode, this shortcode 
 	// forces a dailystory popup to display (if it exists)
 	// ──────────────────────────────────────────────
@@ -91,15 +64,21 @@ class DailyStoryShortCodes {
     	$popup_id = shortcode_atts(['id' => '0',], $atts, $tag);
 
 		$popup_id = esc_html__($popup_id['id'], 'ds-popup');
+		//wp_add_inline_script( 'dailystory', 'Ds.Pop.showPopup(' . $popup_id . ');' );
+		//wp_enqueue_script( 'dailystory' );
 
-		add_action('wp_footer', function ( $content ) use ($popup_id) {
-			echo '<!-- Added by WordPress shortcode -->' . "\n";
-			echo '<script type=\'text/javascript\'>' . "\n";
-			echo 'window.addEventListener(\'ds_popup_ready\', function (e) {' . "\n";
-			echo '	Ds.Pop.showPopup('. $popup_id . ');' . "\n";
-			echo '});' . "\n";
-			echo '</script>' . "\n";
+		wp_register_script('recaptcha', 'https://www.google.com/recaptcha/api.js', null,'1.1', true);
+		wp_enqueue_script( 'recaptcha' );
+		wp_add_inline_script( 'recaptcha', '
+		<!-- Added by WordPress shortcode -->
+		window.addEventListener(\'ds_popup_ready\', function (e) {
+			Ds.Pop.showPopup('. $popup_id . ');
 		});
+		' );
+
+
+		return "<!--found shortcode " . $popup_id . "-->";
+
 	}
 
 	// ──────────────────────────────────────────────

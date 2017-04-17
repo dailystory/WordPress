@@ -3,7 +3,7 @@
 Plugin Name: DailyStory
 Plugin URI: https://www.dailystory.com/integrations/wordpress
 Description: DailyStory's WordPress plugin enables DailyStory customers to easily install the DailyStory tracking code and use WordPress shortcodes within existing WordPress blogs and websites.
-Version: 1.0.2
+Version: 1.0.3
 Author: DailyStory
 Author URI: https://www.dailystory.com/
 License: GPL v2 or later
