@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: DailyStory
+Plugin Name: DailyStory Customer Engagement
 Plugin URI: https://www.dailystory.com/integrations/wordpress
-Description: DailyStory's WordPress plugin enables DailyStory customers to easily install the DailyStory tracking pixel and use WordPress shortcodes within existing WordPress pages and posts.
+Description: Adds DailyStory's Customer Engagement Platform features to your WordPress website including exit intent, lead capture forms, chat and more.
 Version: 1.0.4
 Author: DailyStory
 Author URI: https://www.dailystory.com/
