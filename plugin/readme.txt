@@ -80,6 +80,9 @@ See [our detailed setup instructions and guides published on our website](https:
 
 ## Frequently Asked Questions
 
+### What is DailyStory?
+DailyStory is a [Customer Engagement Platform](https://www.dailystory.com) that includes everything your team needs to convert today's visitor into tomorrow's customer.
+
 ### Can I use my existing WordPress theme?
 Yes, DailyStory works out-of-the-box with all WordPress themes. If you find a problem though, we’d be happy to fix it!
 
@@ -88,9 +91,6 @@ The easiest way to try DailyStory is to <a href="https://app.dailystory.com/tria
 
 ### Where can I get support?
 For technical questions, please ask <a href="http://stackoverflow.com/" rel="friend" title="Stack Overflow">on Stack Overflow using the DailyStory tag</a>. For all other questions, <a href="https://www.dailystory.com/contact-us" rel="friend" title="Contact Us">please contact us</a>.
-
-### What is DailyStory?
-DailyStory is a [Customer Engagement Platform](https://www.dailystory.com) that includes everything your team needs to convert today's visitor into tomorrow's customer.
 
 ### What are the requirements?
 This plugin requires a DailyStory Site ID. You can find your DailyStory Site ID on the Tracking Code page in settings
@@ -101,11 +101,6 @@ We recommend using WordPress version 4.0 or greater. We've tested this plugin wi
 
 ### What is the DailyStory Pixel?
 The DailyStory pixel (about 12 lines of JavaScript) is used by DailyStory to track customer activity as they browse your web or mobile experience. It also adds the ability to render popups, content A/B testing, run page triggers, page covers, surveys and more.
-
-### What are WordPress shortcodes?
-This plugin adds support for embedding DailyStory behavior into your WordPress pages or posts using shortcodes.
-
-WordPress shortcodes enable you to easily add functionality when writing content without requiring you to know HTML or JavaScript.
 
 ### Where can I get the bleeding edge version of DailyStory?
 Our development is done on GitHub. You can <a href="https://github.com/DailyStory/WordPress/">clone the DailyStory WordPress plugin from our GitHub repository</a> and submit pull requests. Major changes are then merged into the WordPress <a href="https://plugins.svn.wordpress.org/dailystory/">https://plugins.svn.wordpress.org/dailystory/</a>
