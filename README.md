@@ -1,23 +1,21 @@
 # DailyStory WordPress Plugin
-This WordPress plugin enables users of DailyStory to add DailyStory features to WordPress.
+This WordPress plugin enables users of DailyStory to [add DailyStory features](https://www.dailystory.com) to WordPress.
 
-This plugin is [published on the WordPress Plugin directory here](https://wordpress.org/plugins/dailystory/#description).
-
-You can learn more about DailyStory at [www.dailystory.com](https://www.dailystory.com).
+This plugin is [published on the WordPress Plugin directory](https://wordpress.org/plugins/dailystory/#description) and you can [read more about DailyStory WordPress integration here](https://www.dailystory.com/wordpress/). 
 
 ## About this plugin
 This plugin uses WordPress APIs to add the DailyStory pixel into the footer of your WordPress site and to process shortcodes specific to DailyStory.
 
-### [dailystory.php](/dailystory/WordPress/tree/master/plugin/dailystory.php)
+### dailystory.php
 This is the main plug-in file that handles registration, initialization, and loading of the plugin.
 
-### [admin/dailystory-admin.php](/dailystory/WordPress/tree/master/plugin/admin/dailystory-admin.php)
+### admin/dailystory-admin.php
 This handles the settings for configuring the plugin.
 
-### [includes/class-dailystory-shortcodes.php](/dailystory/WordPress/tree/master/plugin/includes/class-dailystory-shortcodes.php)
+### includes/class-dailystory-shortcodes.php
 This handles the actual shortcode processing.
 
-### [includes/class-dailystory-tracking-pixel.php](/dailystory/WordPress/tree/master/plugin/includes/class-dailystory-tracking-pixel.php)
+### includes/class-dailystory-tracking-pixel.php
 This handles adding the tracking pixel.
 
 ### Current Supported Version
