@@ -1,4 +1,4 @@
-# DailyStory – Best WordPress Customer Engagement Plugin
+# DailyStory – Campaign Attribution Plugin
 Contributors: dailystory, roberthoward
 Tags: wordpress popup, lead generation, marketing, web forms, popups
 Requires at least: 4.0
@@ -17,24 +17,18 @@ Sure, you can solve this problem by working with 15-20 different technologies, s
 
 Or, you can use [DailyStory](https://www.dailystory.com/).
 
-> <strong>DailyStory Customer Engagement Platform</strong> <br>
-DailyStory is a Customer Engagement Platform that integrates with any website and includes all the features you need to make your website a conversion machine. [To use the DailyStory WordPress Plugin you will need a DailyStory account](https://login.dailystory.com/login?ReturnUrl=%2f).
+> <strong>DailyStory Campaign Attribution Platform</strong> <br>
+DailyStory is a Campaign Attribution Platform that integrates with any website and includes all the features you need to know where you found your best customers.
 
 [youtube https://www.youtube.com/watch?v=P5hjQqR2Ivg]
 
 
-## What is Customer Engagement
+## What is Campaign Attribution Platform?
 
-Customer engagement is a connection between a customer and a company or brand. This connection can be a reaction, interaction, effect or overall customer experience.
+A Campaign Attribution Platform helps businesses with long, complex sales cycles ensure customers are attributed to the campaign that originated the lead. By knowing exactly which campaigns work, and which ones don’t, marketing and sales leaders achieve a higher ROI on their marketing investments.
 
-Successful customer engagement builds and grows your customer relationships and opportunities. It creates brand loyalty and positive views of the business. And, it increases average customer spend with the business.
-
-And we're experts at customer engagement. 
-
-Our team has helped some of the world's best brands create more meaningful connections with their customers.
-
-## The DailyStory Customer Engagement Platform
-DailyStory includes landing pages, link tracking, web forms, exit intent, welcome mats, email autoresponder and more. You can use these tools to create more opportunities to convert visitors. 
+## The DailyStory Campaign Attribution Platform
+DailyStory includes landing pages, link tracking, web forms, exit intent, welcome mats, email autoresponder and more. You can use these tools to create more opportunities to convert visitors and associate them to the right campaigns.
 
 For example, you can embed a newsletter sign up form on any WordPress page or post with a simple shortcode.
 
@@ -81,7 +75,7 @@ See [our detailed setup instructions and guides published on our website](https:
 ## Frequently Asked Questions
 
 ### What is DailyStory?
-DailyStory is a [Customer Engagement Platform](https://www.dailystory.com) that includes everything your team needs to convert today's visitor into tomorrow's customer.
+DailyStory is a [Campaign Attribution Platform](https://www.dailystory.com) that helps B2B digital marketers know where they found their best customers.
 
 ### Can I use my existing WordPress theme?
 Yes, DailyStory works out-of-the-box with all WordPress themes. If you find a problem though, we’d be happy to fix it!
