@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: DailyStory Customer Engagement
+Plugin Name: DailyStory Marketing Solutions
 Plugin URI: https://www.dailystory.com/integrations/wordpress
-Description: Adds DailyStory's Customer Engagement Platform features to your WordPress website including exit intent, lead capture forms, chat and more.
-Version: 1.0.4
+Description: Adds integration to the DailyStory Marketing Automation platform to your WordPress website to track visitors, know what converts, engage in conversations, and drive new leads.
+Version: 1.0.5
 Author: DailyStory
 Author URI: https://www.dailystory.com/
 License: GPL v2 or later
