@@ -1,46 +1,47 @@
-# DailyStory – Campaign Attribution Plugin
+# DailyStory | Marketing Solutions
 Contributors: dailystory, roberthoward
-Tags: wordpress popup, lead generation, marketing, web forms, popups
+Tags: marketing, sales, automation
 Requires at least: 4.0
 Tested up to: 4.7
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 License: GNU General Public License v2.0 or later
 
-## Why you need this plugin
-You've built an amazing website with WordPress. Now it's time to start converting those website visitors into customers! 
+## Powerful Marketing Automation solutions for Growing Businesses
+[Dailystory](https://www.dailystory.com/) is a turn-key solution to help businesses use digital marketing to find new customers. And keep them.
 
-But where do you start? How do you convert more visitors? What about when they leave? 
+Use DailyStory’s WordPress plugin to *track visitors*, *know what converts*, *engage in conversations*, and *drive new leads*. [Features](https://www.dailystory.com/features/) include: email marketing, content marketing, test message marketing and much more.
 
-Start with simple conversion forms, exit intent and maybe even a welcome mat. You'll also want an auto-responder for sending welcome emails. And you definitely want to add those fresh new leads as subscribers to your email lists too.
+And the WordPress plugin is *the easiest way* to add these digital marketing capabilities to extend your WordPress website. 
 
-Sure, you can solve this problem by working with 15-20 different technologies, some free and some paid.
-
-Or, you can use [DailyStory](https://www.dailystory.com/).
-
-> <strong>DailyStory Campaign Attribution Platform</strong> <br>
-DailyStory is a Campaign Attribution Platform that integrates with any website and includes all the features you need to know where you found your best customers.
+> <strong>DailyStory Marketing Automation Platform</strong> <br>
+DailyStory is a turn-key solution to help businesses use digital marketing to find new customers. And keep them.
 
 [youtube https://www.youtube.com/watch?v=P5hjQqR2Ivg]
 
+## What is a Marketing Automation Platform?
 
-## What is Campaign Attribution Platform?
+A Marketing Automation Platform is a suite of solutions that help businesses track potential customers, convert those customers into your marketing and sales process, and then nurture and grow those customers through continuous communication.
 
-A Campaign Attribution Platform helps businesses with long, complex sales cycles ensure customers are attributed to the campaign that originated the lead. By knowing exactly which campaigns work, and which ones don’t, marketing and sales leaders achieve a higher ROI on their marketing investments.
+## DailyStory Features
+Visit our [feature tour](https://www.dailystory.com/features/) to see all our great features and capabilities.
 
-## The DailyStory Campaign Attribution Platform
-DailyStory includes landing pages, link tracking, web forms, exit intent, welcome mats, email autoresponder and more. You can use these tools to create more opportunities to convert visitors and associate them to the right campaigns.
-
-For example, you can embed a newsletter sign up form on any WordPress page or post with a simple shortcode.
-
-And, once DailyStory is managing the converted visitor, use campaigns, automation, rules, scoring, and workflow to automate common actions. 
+* Email Marketing
+* Text Messaging / SMS Marketing
+* Visitor tracking
+* Web Forms
+* Pop-ups
+* Paid Search
+* Landing Pages
+* Workflow 
+* Automation
+* Scoring 
+* [and much more ...](https://www.dailystory.com/features/)
 
 ## Press & Brand Assets
 
-If you are interested in writing about DailyStory, then we have prepared a [Press & Brand Assets page](https://www.dailystory.com/about-us/brand-assets/) where you can download our logo, screenshots, and other relevant assets.
+If you are interested in writing about DailyStory please visit our [Press & Brand Assets page](https://www.dailystory.com/about-us/brand-assets/) where you can download our logo, screenshots, and other relevant assets.
 
 When mentioning DailyStory please know that DailyStory is one word with a capital D and S.
-
-Please avoid using any variations like: Dailystory, dailystory, or Daily story.
 
 DailyStory® is a registered trademark of DailyStory, LLC.
 
@@ -65,45 +66,45 @@ Installing the DailyStory WordPress Plugin in simple. Just add it to your site f
 7. Enter your DailyStory Site ID and click "Save Settings"
 
 ### Clone from GitHub
-You can <a href="https://github.com/DailyStory/WordPress/">clone the DailyStory WordPress plugin from our GitHub repository</a>. If you fix bugs, or add features, we would appreciate a pull request so we can share these with other users in the DailyStory community.
-
-1. Clone the repository locally
-2. Follow the instructions for *From WordPress.org*
+You can [clone the DailyStory WordPress plugin from our GitHub repository](https://github.com/DailyStory/WordPress/). If you fix bugs, or add features, we would appreciate a pull request so we can share these with other users in the DailyStory community.
 
 See [our detailed setup instructions and guides published on our website](https://www.dailystory.com/integrations/wordpress).
 
 ## Frequently Asked Questions
 
 ### What is DailyStory?
-DailyStory is a [Campaign Attribution Platform](https://www.dailystory.com) that helps B2B digital marketers know where they found their best customers.
+DailyStory is a [Marketing Automation Platform](https://www.dailystory.com) that helps you find new customers. And keep them.
 
 ### Can I use my existing WordPress theme?
 Yes, DailyStory works out-of-the-box with all WordPress themes. If you find a problem though, we’d be happy to fix it!
 
 ### I installed this plugin but don't have a DailyStory account. How can I get one?
-The easiest way to try DailyStory is to <a href="https://app.dailystory.com/trial" rel="friend" title="DailyStory trial">start a 30-day trial</a>. Or, you can sign up for a DailyStory commercial account - see our <a href="https://www.dailystory.com/pricing" rel="friend" title="DailyStory Pricing">license and pricing page</a>.
+The easiest way to try DailyStory is to [start a 30-day trial](https://app.dailystory.com/trial). Or, you can sign up for a DailyStory commercial account - see our [license and pricing page](https://www.dailystory.com/pricing).
 
 ### Where can I get support?
-For technical questions, please ask <a href="http://stackoverflow.com/" rel="friend" title="Stack Overflow">on Stack Overflow using the DailyStory tag</a>. For all other questions, <a href="https://www.dailystory.com/contact-us" rel="friend" title="Contact Us">please contact us</a>.
+For technical questions, please visit Stack Overflow’s [DailyStory tag](http://stackoverflow.com/). For all other questions, [please contact us](https://www.dailystory.com/contact-us).
 
 ### What are the requirements?
 This plugin requires a DailyStory Site ID. You can find your DailyStory Site ID on the Tracking Code page in settings
 
-If you are not a customer you can [sign up for a free 30 day trial](https://www.dailystory.com/trial) to get a DailyStory Site ID and try our WordPress integration.
+If you are not a customer you can [sign up for a free 21 day trial](https://www.dailystory.com/trial) to get a DailyStory Site ID and try our WordPress integration.
 
-We recommend using WordPress version 4.0 or greater. We've tested this plugin with WordPress version 4 and up.
+We recommend using WordPress version 4.0 or greater.
 
-### What is the DailyStory Pixel?
-The DailyStory pixel (about 12 lines of JavaScript) is used by DailyStory to track customer activity as they browse your web or mobile experience. It also adds the ability to render popups, content A/B testing, run page triggers, page covers, surveys and more.
+### What is the DailyStory Tracking Tag?
+The DailyStory tracking tag (about 12 lines of JavaScript) is used by DailyStory to track customer activity as they browse your web or mobile experience. It also adds the ability to render popups, content A/B testing, run page triggers, page covers, surveys and more.
 
 ### Where can I get the bleeding edge version of DailyStory?
-Our development is done on GitHub. You can <a href="https://github.com/DailyStory/WordPress/">clone the DailyStory WordPress plugin from our GitHub repository</a> and submit pull requests. Major changes are then merged into the WordPress <a href="https://plugins.svn.wordpress.org/dailystory/">https://plugins.svn.wordpress.org/dailystory/</a>
+The source for the DailyStory plugin is maintained on GitHub. You can [clone the DailyStory WordPress plugin](https://github.com/DailyStory/WordPress/) from our GitHub repository and submit pull requests. Major changes are then merged into the WordPress [https://plugins.svn.wordpress.org/dailystory/](https://plugins.svn.wordpress.org/dailystory/)
 
 ## Screenshots
 1. **Set DailyStory Site ID** - After the plugin is installed and activated, set your DailyStory Site ID and click "Save Settings".
 2. **Web Form Designer** - Design web forms within DailyStory and then use WordPress shortcodes to easily embed them in your WordPress site.
 
 ## Changelog
+
+### 1.0.5
+* Doc updates
 
 ### 1.0.4
 * Doc updates
