@@ -156,10 +156,6 @@ class DailyStoryPluginAdmin {
                                 settings_fields('dailystory_settings_options');
                                 do_settings_sections(DAILYSTORY_ADMIN_PATH);
                                 ?>
-                                <?php
-                                settings_fields('dailystory_settings_options_url');
-                                do_settings_sections(DAILYSTORY_ADMIN_URL);
-                                ?>
                                 </div>
                                 <div id="major-publishing-actions">
                                     <div id="publishing-action">
