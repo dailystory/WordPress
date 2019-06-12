@@ -201,10 +201,21 @@ class DailyStoryPluginAdmin {
         if ( isset($input['dailystory_tenant_uid']) )
             $new_input['dailystory_tenant_uid'] = $input['dailystory_tenant_uid'];
 
-        if ( isset($input['dailystory_tenant_url']) )
-            $new_input['dailystory_tenant_url'] = $input['dailystory_tenant_url'];
-
-            if ( isset($input['dailystory_installed']) )
+        if ( isset($input['dailystory_tenant_url']) ) {
+            
+            $url = $input['dailystory_tenant_url'];
+            
+            // trim ending slash
+            $url = rtrim($url, '/');            
+            
+            // trim https: or http: from beginning of string
+            $url = ltrim($url, 'https:');
+            $url = ltrim($url, 'https');
+            
+            $new_input['dailystory_tenant_url'] = $url;
+        }
+        
+        if ( isset($input['dailystory_installed']) )
             $new_input['dailystory_installed'] = $input['dailystory_installed'];
 
         if ( isset($input['dailystory_version']) )
