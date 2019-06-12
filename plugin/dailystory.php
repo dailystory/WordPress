@@ -29,7 +29,7 @@ class DailyStoryPlugin {
 			define('DAILYSTORY_PLUGIN_SLUG', basename(dirname(__FILE__)));	
 
 		if ( !defined('DAILYSTORY_PLUGIN_VERSION') )
-			define('DAILYSTORY_PLUGIN_VERSION', '1.0.2');
+			define('DAILYSTORY_PLUGIN_VERSION', '1.1.0');
 
 		// ──────────────────────────────────────────────
 		// Load required files
