@@ -71,7 +71,7 @@ class DailyStoryTrackingPixel {
             echo '    d._dsSettings=i;' . "\n";
             echo '    r = a.createElement("script");' . "\n";
             echo '    o = a.getElementsByTagName("script")[0];' . "\n";
-            echo '    r.src= "' . trim($options['dailystory_tenant_url']) . '"/ds/ds" + i + ".js";' . "\n";
+            echo '    r.src= "' . trim($options['dailystory_tenant_url']) . '/ds/ds" + i + ".js";' . "\n";
             echo '    r.async = true;' . "\n";
             echo '    r.id = "ds-sitescript";' . "\n";
             echo '    o.parentNode.insertBefore(r, o);' . "\n";
