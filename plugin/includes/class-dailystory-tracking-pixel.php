@@ -38,7 +38,7 @@ class DailyStoryTrackingPixel {
     	if ( isset($_GET['page']) && $_GET['page'] == 'dailystory-admin.php' )
     		return FALSE;
 
-    	if ( ! isset($options['dailystory_tenant_uid']) || ( isset($options['dailystory_tenant_uid']) && ! $options['dailystory_tenant_uid'] ) )
+    	if ( ! isset($options['dailystory_tenant_uid']) || ( isset($options['dailystory_tenant_uid']) && ! $options['dailystory_tenant_uid'] ) || ( isset($options['dailystory_tenant_url']) && ! $options['dailystory_tenant_url'] ))
     	{
         ?>
         <div class="error">
@@ -61,7 +61,7 @@ class DailyStoryTrackingPixel {
         $options = array();
         $options = get_option('dailystory_settings');
 
-        if ( isset($options['dailystory_tenant_uid']) && $options['dailystory_tenant_uid'] != '' )
+        if ( isset($options['dailystory_tenant_uid']) && $options['dailystory_tenant_uid'] != '' && $options['dailystory_tenant_url'] != '')
         {
             // This in the script that gets injected, this should be identical
             // to what is on https://app.dailystory.com
@@ -71,7 +71,7 @@ class DailyStoryTrackingPixel {
             echo '    d._dsSettings=i;' . "\n";
             echo '    r = a.createElement("script");' . "\n";
             echo '    o = a.getElementsByTagName("script")[0];' . "\n";
-            echo '    r.src= "//app.dailystory.com/ds/ds" + i + ".js";' . "\n";
+            echo '    r.src= "' . trim($options['dailystory_tenant_url']) . '"/ds/ds" + i + ".js";' . "\n";
             echo '    r.async = true;' . "\n";
             echo '    r.id = "ds-sitescript";' . "\n";
             echo '    o.parentNode.insertBefore(r, o);' . "\n";

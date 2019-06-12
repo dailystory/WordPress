@@ -2,7 +2,7 @@
 Contributors: dailystory, roberthoward
 Tags: marketing, sales, automation
 Requires at least: 4.0
-Tested up to: 4.7
+Tested up to: 5.2
 Stable tag: 1.1.0
 License: GNU General Public License v2.0 or later
 

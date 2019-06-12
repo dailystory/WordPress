@@ -17,6 +17,9 @@ include_once(ABSPATH . 'wp-admin/includes/plugin.php');
 if ( !defined('DAILYSTORY_ADMIN_PATH') )
     define('DAILYSTORY_ADMIN_PATH', untrailingslashit(__FILE__));
 
+if ( !defined('DAILYSTORY_ADMIN_URL') )
+    define('DAILYSTORY_ADMIN_URL', untrailingslashit(__FILE__));
+
 // ──────────────────────────────────────────────
 // DailyStoryPluginAdmin is used to enable end users to easily
 // set their DailyStory site id for integration with WordPress - this
@@ -72,7 +75,7 @@ class DailyStoryPluginAdmin {
             array($this, 'sanitize')
         );
 
-
+        // Site ID
         add_settings_section(
             'dailystory_settings_section',
             '',
@@ -80,11 +83,29 @@ class DailyStoryPluginAdmin {
             DAILYSTORY_ADMIN_PATH
         );
 
+        // Site URL
+        add_settings_section(
+            'dailystory_settings_section',
+            '',
+            array($this, 'dailystory_settings_section_heading'),
+            DAILYSTORY_ADMIN_URL
+        );
+
+        // Site ID
         add_settings_field(
             'dailystory_tenant_uid',
             'DailyStory Site ID',
             array($this, 'dailystory_tenant_uid_callback'),
             DAILYSTORY_ADMIN_PATH,
+            'dailystory_settings_section'
+        );
+
+        // Site URL
+        add_settings_field(
+            'dailystory_tenant_url',
+            'DailyStory Site URL',
+            array($this, 'dailystory_tenant_url_callback'),
+            DAILYSTORY_ADMIN_URL,
             'dailystory_settings_section'
         );
     }
@@ -130,10 +151,14 @@ class DailyStoryPluginAdmin {
                             <h3 class="hndle ui-sortable-handle"><span>Settings</span></h3>
                             <form method="POST" action="options.php">
                                 <div class="inside">
-                                Enter your DailyStory Site ID below to enable DailyStory's WordPress integration.
+                                Enter your DailyStory Site ID and Site URL below to enable DailyStory's WordPress integration.
                                 <?php
                                 settings_fields('dailystory_settings_options');
                                 do_settings_sections(DAILYSTORY_ADMIN_PATH);
+                                ?>
+                                <?php
+                                settings_fields('dailystory_settings_options_url');
+                                do_settings_sections(DAILYSTORY_ADMIN_URL);
                                 ?>
                                 </div>
                                 <div id="major-publishing-actions">
@@ -154,10 +179,10 @@ class DailyStoryPluginAdmin {
                             <div class="inside">
                                 <p>
                                 <b>I'm already using DailyStory</b>
-                                <br>If you are already using DailyStory <a target='_blank' href='https://login.dailystory.com/login?ReturnUrl=%2FAccount%2FTrackCode'>go here to get your Site ID</a> (may require you to login).
+                                <br>If you are already using DailyStory <a target='_blank' href='https://app.dailystory.com/login?ReturnUrl=%2FAccount%2FTrackCode'>go here to get your Site ID</a> (may require you to login).
                                 </p>
 								<p><b>I'm not using DailyStory</b>
-                                <br>First, <a target='_blank' href='https://login.dailystory.com/trial'>sign up for a free 30-day trial</a>. Then follow the instructions above to get your Site ID.</a></p>
+                                <br>First, <a target='_blank' href='https://app.dailystory.com/trial'>sign up for a 21-day trial</a>. Then follow the instructions above to get your Site ID.</a></p>
 								<p><b>Learn more about WordPress Integration</b><br><a target='_blank' href='https://www.dailystory.com/integrations/wordpress'>Learn more about DailyStory's WordPress integration</a>, such as the available shortcodes.
                             </div>
                         </div> <!-- end postbox -->
@@ -180,7 +205,10 @@ class DailyStoryPluginAdmin {
         if ( isset($input['dailystory_tenant_uid']) )
             $new_input['dailystory_tenant_uid'] = $input['dailystory_tenant_uid'];
 
-        if ( isset($input['dailystory_installed']) )
+        if ( isset($input['dailystory_tenant_url']) )
+            $new_input['dailystory_tenant_url'] = $input['dailystory_tenant_url'];
+
+            if ( isset($input['dailystory_installed']) )
             $new_input['dailystory_installed'] = $input['dailystory_installed'];
 
         if ( isset($input['dailystory_version']) )
@@ -202,6 +230,22 @@ class DailyStoryPluginAdmin {
         printf(
             '<input id="dailystory_tenant_uid" type="text" id="title" name="dailystory_settings[dailystory_tenant_uid]" size="15" class="regular-text code active" value="%s"/>',
             $dailystory_tenant_uid
+        );
+    }
+
+    // ──────────────────────────────────────────────
+    // Gets the input for the tenant url
+    // ──────────────────────────────────────────────
+    function dailystory_tenant_url_callback ()
+    {
+        // Get the option values for DailyStory if we find them
+        $options = get_option('dailystory_settings');
+        $dailystory_tenant_url  = ( isset($options['dailystory_tenant_url']) && $options['dailystory_tenant_url'] ? $options['dailystory_tenant_url'] : '' );
+
+        // Render the input textbox with any found value
+        printf(
+            '<input id="dailystory_tenant_url" type="text" id="url" name="dailystory_settings[dailystory_tenant_url]" size="15" class="regular-text code active" value="%s"/>',
+            $dailystory_tenant_url
         );
     }
 }
