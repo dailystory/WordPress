@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: DailyStory Marketing Solutions
-Plugin URI: https://www.dailystory.com/integrations/wordpress
+Plugin URI: https://docs.dailystory.com/install/wordpress
 Description: Adds integration to the DailyStory Marketing Automation platform to your WordPress website to track visitors, know what converts, engage in conversations, and drive new leads.
-Version: 1.1.0
+Version: 1.1.2
 Author: DailyStory
-Author URI: https://www.dailystory.com/
+Author URI: https://www.dailystory.com/integrations/wordpress
 License: GPL v2 or later
 */
 
@@ -29,7 +29,7 @@ class DailyStoryPlugin {
 			define('DAILYSTORY_PLUGIN_SLUG', basename(dirname(__FILE__)));	
 
 		if ( !defined('DAILYSTORY_PLUGIN_VERSION') )
-			define('DAILYSTORY_PLUGIN_VERSION', '1.1.0');
+			define('DAILYSTORY_PLUGIN_VERSION', '1.1.2');
 
 		// ──────────────────────────────────────────────
 		// Load required files

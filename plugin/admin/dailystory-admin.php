@@ -103,7 +103,7 @@ class DailyStoryPluginAdmin {
         // Site URL
         add_settings_field(
             'dailystory_tenant_url',
-            'DailyStory Site URL',
+            'DailyStory Site Url',
             array($this, 'dailystory_tenant_url_callback'),
             DAILYSTORY_ADMIN_URL,
             'dailystory_settings_section'
@@ -175,10 +175,10 @@ class DailyStoryPluginAdmin {
                             <div class="inside">
                                 <p>
                                 <b>I'm already using DailyStory</b>
-                                <br>If you are already using DailyStory <a target='_blank' href='https://app.dailystory.com/login?ReturnUrl=%2FAccount%2FTrackCode'>go here to get your Site ID</a> (may require you to login).
+                                <br>If you are already using DailyStory <a target='_blank' href='https://docs.dailystory.com/install/wordpress'>see the instructions</a> for setting up WordPress integration.
                                 </p>
 								<p><b>I'm not using DailyStory</b>
-                                <br>First, <a target='_blank' href='https://app.dailystory.com/trial'>sign up for a 21-day trial</a>. Then follow the instructions above to get your Site ID.</a></p>
+                                <br>First, <a target='_blank' href='https://app.dailystory.com/trial'>sign up for a 21-day trial</a>. Then follow the instructions above to get your Site ID and Url.</a></p>
 								<p><b>Learn more about WordPress Integration</b><br><a target='_blank' href='https://www.dailystory.com/integrations/wordpress'>Learn more about DailyStory's WordPress integration</a>, such as the available shortcodes.
                             </div>
                         </div> <!-- end postbox -->
