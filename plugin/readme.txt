@@ -1,9 +1,9 @@
-# DailyStory | Marketing Solutions
+# DailyStory | Email and SMS Marketing Automation
 Contributors: dailystory, roberthoward
 Tags: marketing, sales, automation
 Requires at least: 4.0
-Tested up to: 5.7
-Stable tag: 1.1.2
+Tested up to: 5.8.3
+Stable tag: 1.1.5
 License: GNU General Public License v2.0 or later
 
 ## Powerful Marketing Automation solutions for Growing Businesses
@@ -26,7 +26,7 @@ A Marketing Automation Platform is a suite of solutions that help businesses tra
 Visit our [feature tour](https://www.dailystory.com/features/) to see all our great features and capabilities.
 
 * Email Marketing
-* Text Messaging / SMS Marketing
+* SMS Marketing
 * Visitor tracking
 * Web Forms
 * Pop-ups
@@ -102,6 +102,9 @@ The source for the DailyStory plugin is maintained on GitHub. You can [clone the
 2. **Web Form Designer** - Design web forms within DailyStory and then use WordPress shortcodes to easily embed them in your WordPress site.
 
 ## Changelog
+
+### 1.1.5
+* Update to add support for service worker
 
 ### 1.1.2
 * Update to support Site Url

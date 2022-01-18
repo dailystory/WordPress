@@ -175,7 +175,7 @@ class DailyStoryPluginAdmin {
                             <div class="inside">
                                 <p>
                                 <b>I'm already using DailyStory</b>
-                                <br>If you are already using DailyStory <a target='_blank' href='https://docs.dailystory.com/install/wordpress'>see the instructions</a> for setting up WordPress integration.
+                                <br>If you are already using DailyStory <a target='_blank' href='https://docs.dailystory.com/article/8omibw2171-word-press-and-dailystory-integration'>see the instructions</a> for setting up WordPress integration.
                                 </p>
 								<p><b>I'm not using DailyStory</b>
                                 <br>First, <a target='_blank' href='https://app.dailystory.com/trial'>sign up for a 21-day trial</a>. Then follow the instructions above to get your Site ID and Url.</a></p>
