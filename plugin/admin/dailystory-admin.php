@@ -178,7 +178,7 @@ class DailyStoryPluginAdmin {
                                 <br>If you are already using DailyStory <a target='_blank' href='https://docs.dailystory.com/article/8omibw2171-word-press-and-dailystory-integration'>see the instructions</a> for setting up WordPress integration.
                                 </p>
 								<p><b>I'm not using DailyStory</b>
-                                <br>First, <a target='_blank' href='https://app.dailystory.com/trial'>sign up for a 21-day trial</a>. Then follow the instructions above to get your Site ID and Url.</a></p>
+                                <br>First, <a target='_blank' href='https://dailystory.com/pricing'>sign up for free</a>. Then follow the instructions above to get your Site ID and Url.</a></p>
 								<p><b>Learn more about WordPress Integration</b><br><a target='_blank' href='https://www.dailystory.com/integrations/wordpress'>Learn more about DailyStory's WordPress integration</a>, such as the available shortcodes.
                             </div>
                         </div> <!-- end postbox -->

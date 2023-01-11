@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: DailyStory Marketing Solutions
-Plugin URI: https://docs.dailystory.com/install/wordpress
-Description: Adds integration to the DailyStory Marketing Automation platform to your WordPress website to track visitors, know what converts, engage in conversations, and drive new leads.
-Version: 1.1.5
+Plugin Name: DailyStory Marketing Automation
+Plugin URI: https://docs.dailystory.com/article/8omibw2171-integrations-wordpress
+Description: The DailyStory plugin simplifies the process of adding popups, web forms, conversion tracking, and other features to your WordPress website.
+Version: 2.0.2
 Author: DailyStory
 Author URI: https://www.dailystory.com/integrations/wordpress
 License: GPL v2 or later

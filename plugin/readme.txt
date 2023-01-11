@@ -1,49 +1,38 @@
-# DailyStory | Email and SMS Marketing Automation
+# DailyStory - Email, SMS, Web Forms and more
 Contributors: dailystory, roberthoward
 Tags: marketing, sales, automation
 Requires at least: 4.0
-Tested up to: 5.8.3
-Stable tag: 1.1.5
+Tested up to: 6.1.1
+Stable tag: 2.0.2
 License: GNU General Public License v2.0 or later
 
-## Powerful Marketing Automation solutions for Growing Businesses
-[Dailystory](https://www.dailystory.com/) is a turn-key solution to help businesses use digital marketing to find new customers. And keep them.
+[DailyStory](https://www.dailystory.com/) automates outbound sales, client engagement, and follow-up in order to generate interest at the top of the sales funnel. It results in a 100 times greater cost efficiency per acquired customer compared to traditional advertising methods. By utilizing personalized email and text message marketing, it also increases engagement.
 
-Use DailyStory’s WordPress plugin to *track visitors*, *know what converts*, *engage in conversations*, and *drive new leads*. [Features](https://www.dailystory.com/features/) include: email marketing, content marketing, test message marketing and much more.
+The DailyStory plugin simplifies the process of adding popups, web forms, conversion tracking, and other features to your WordPress website.
 
-And the WordPress plugin is *the easiest way* to add these digital marketing capabilities to extend your WordPress website. 
+* Embed DailyStory's drag-and-drop web forms directly into any post, page or sidebar
+* Utilize visitor tracking to trigger automations when people visit pages in your website
+* Use popups to capture visitors when they arrive or when they are exiting your website
 
-> <strong>DailyStory Marketing Automation Platform</strong> <br>
-DailyStory is a turn-key solution to help businesses use digital marketing to find new customers. And keep them.
-
+Watch the WordPress plugin in action:
 [youtube https://www.youtube.com/watch?v=P5hjQqR2Ivg]
 
-## What is a Marketing Automation Platform?
-
-A Marketing Automation Platform is a suite of solutions that help businesses track potential customers, convert those customers into your marketing and sales process, and then nurture and grow those customers through continuous communication.
+## Automate drip campaigns, abandon carts, and more
+Utilize DailyStory's drag-and-drag automation builder to quickly create automated drip campaigns, cart abandons, shipping notifications and more all integrated with your favorite platforms: WooCommerce, Shopify, BigCommerce, Square and many others
 
 ## DailyStory Features
-Visit our [feature tour](https://www.dailystory.com/features/) to see all our great features and capabilities.
+Visit [dailystory.com]](https://www.dailystory.com/features/) to see all our great features and capabilities including:
 
 * Email Marketing
 * SMS Marketing
+* App Push Notifications
+* Web Push Notifications
 * Visitor tracking
 * Web Forms
-* Pop-ups
-* Paid Search
+* Popup Forms
 * Landing Pages
-* Workflow 
-* Automation
-* Scoring 
-* [and much more ...](https://www.dailystory.com/features/)
-
-## Press & Brand Assets
-
-If you are interested in writing about DailyStory please visit our [Press & Brand Assets page](https://www.dailystory.com/about-us/brand-assets/) where you can download our logo, screenshots, and other relevant assets.
-
-When mentioning DailyStory please know that DailyStory is one word with a capital D and S.
-
-DailyStory® is a registered trademark of DailyStory, LLC.
+* Automations
+* QR Codes
 
 ## Installation
 
@@ -68,7 +57,7 @@ Installing the DailyStory WordPress Plugin in simple. Just add it to your site f
 ### Clone from GitHub
 You can [clone the DailyStory WordPress plugin from our GitHub repository](https://github.com/DailyStory/WordPress/). If you fix bugs, or add features, we would appreciate a pull request so we can share these with other users in the DailyStory community.
 
-See [our detailed setup instructions and guides published on our website](https://docs.dailystory.com/install/wordpress).
+See [our detailed setup instructions and guides published on our website](https://docs.dailystory.com/article/qfl7mox9nn-install-daily-story-tracking-tag-in-word-press).
 
 ## Frequently Asked Questions
 
@@ -79,7 +68,7 @@ DailyStory is a [Marketing Automation Platform](https://www.dailystory.com) that
 Yes, DailyStory works out-of-the-box with all WordPress themes. If you find a problem though, we’d be happy to fix it!
 
 ### I installed this plugin but don't have a DailyStory account. How can I get one?
-The easiest way to try DailyStory is to [start a trial](https://app.dailystory.com/trial). Or, you can sign up for a DailyStory commercial account - see our [license and pricing page](https://www.dailystory.com/pricing).
+The easiest way to try DailyStory is to [start for free](https://dailystory.com/pricing). Or, you can sign up for a DailyStory commercial account - see our [license and pricing page](https://www.dailystory.com/pricing).
 
 ### Where can I get support?
 For technical questions, please visit Stack Overflow’s [DailyStory tag](http://stackoverflow.com/). For all other questions, [please contact us](https://www.dailystory.com/contact-us).
@@ -87,9 +76,9 @@ For technical questions, please visit Stack Overflow’s [DailyStory tag](http:/
 ### What are the requirements?
 This plugin requires a DailyStory Site ID and Site Url. You can find your DailyStory Site ID on the Tracking Code page in settings
 
-If you are not a customer you can [sign up for a free 21 day trial](https://www.dailystory.com/trial) to get a DailyStory Site ID and try our WordPress integration.
+If you are not a customer you can [sign up for the free plan](https://dailystory.com/pricing) to get your DailyStory Site ID and try our WordPress integration.
 
-We recommend using WordPress version 4.0 or greater.
+We recommend using WordPress version 4.0 or greater, but we've tested up to version 6.1.
 
 ### What is the DailyStory Tracking Tag?
 The DailyStory tracking tag (about 12 lines of JavaScript) is used by DailyStory to track customer activity as they browse your web or mobile experience. It also adds the ability to render popups, content A/B testing, run page triggers, page covers, surveys and more.
@@ -102,6 +91,12 @@ The source for the DailyStory plugin is maintained on GitHub. You can [clone the
 2. **Web Form Designer** - Design web forms within DailyStory and then use WordPress shortcodes to easily embed them in your WordPress site.
 
 ## Changelog
+
+### 2.0.1
+* Updated for latest pricing plans
+
+### 1.1.6
+* Tested with latest version of WordPress
 
 ### 1.1.5
 * Update to add support for service worker
