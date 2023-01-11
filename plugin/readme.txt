@@ -8,7 +8,7 @@ License: GNU General Public License v2.0 or later
 
 [DailyStory](https://www.dailystory.com/) automates outbound sales, client engagement, and follow-up in order to generate interest at the top of the sales funnel. It results in a 100 times greater cost efficiency per acquired customer compared to traditional advertising methods. By utilizing personalized email and text message marketing, it also increases engagement.
 
-The DailyStory plugin simplifies the process of adding popups, web forms, conversion tracking, and other features to your WordPress website.
+The DailyStory plugin makes it easy to integrate popups, web forms, conversion tracking and additional functionalities to your current WordPress website.
 
 * Embed DailyStory's drag-and-drop web forms directly into any post, page or sidebar
 * Utilize visitor tracking to trigger automations when people visit pages in your website
@@ -18,10 +18,10 @@ Watch the WordPress plugin in action:
 [youtube https://www.youtube.com/watch?v=P5hjQqR2Ivg]
 
 ## Automate drip campaigns, abandon carts, and more
-Utilize DailyStory's drag-and-drag automation builder to quickly create automated drip campaigns, cart abandons, shipping notifications and more all integrated with your favorite platforms: WooCommerce, Shopify, BigCommerce, Square and many others
+DailyStory's simple drag-and-drop automation builder to efficiently design automated drip campaigns, shopping cart abandonment notifications, shipping confirmations, and more, all seamlessly integrated with your preferred platforms such as WooCommerce, Shopify, BigCommerce, Square and more.
 
 ## DailyStory Features
-Visit [dailystory.com]](https://www.dailystory.com/features/) to see all our great features and capabilities including:
+Visit [dailystory.com](https://www.dailystory.com/features/) to see all our great features and capabilities including:
 
 * Email Marketing
 * SMS Marketing
