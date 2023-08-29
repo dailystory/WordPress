@@ -1,9 +1,9 @@
-# DailyStory - Email, SMS, Web Forms and more
+# Email and SMS marketing for WordPress by DailyStory
 Contributors: dailystory, roberthoward
 Tags: marketing, sales, automation
 Requires at least: 4.0
-Tested up to: 6.1.1
-Stable tag: 2.0.2
+Tested up to: 6.3
+Stable tag: 2.0.3
 License: GNU General Public License v2.0 or later
 
 [DailyStory](https://www.dailystory.com/) automates outbound sales, client engagement, and follow-up in order to generate interest at the top of the sales funnel. It results in a 100 times greater cost efficiency per acquired customer compared to traditional advertising methods. By utilizing personalized email and text message marketing, it also increases engagement.
@@ -62,21 +62,21 @@ See [our detailed setup instructions and guides published on our website](https:
 ## Frequently Asked Questions
 
 ### What is DailyStory?
-DailyStory is a [Marketing Automation Platform](https://www.dailystory.com) that helps you find new customers and keep them.
+DailyStory is a [Marketing Automation Platform](https://www.dailystory.com/) that helps you find new customers and keep them.
 
 ### Can I use my existing WordPress theme?
 Yes, DailyStory works out-of-the-box with all WordPress themes. If you find a problem though, we’d be happy to fix it!
 
 ### I installed this plugin but don't have a DailyStory account. How can I get one?
-The easiest way to try DailyStory is to [start for free](https://dailystory.com/pricing). Or, you can sign up for a DailyStory commercial account - see our [license and pricing page](https://www.dailystory.com/pricing).
+The easiest way to try DailyStory is to [start for free](https://dailystory.com/pricing/). Or, you can sign up for a DailyStory commercial account - see our [license and pricing page](https://www.dailystory.com/pricing/).
 
 ### Where can I get support?
-For technical questions, please visit Stack Overflow’s [DailyStory tag](http://stackoverflow.com/). For all other questions, [please contact us](https://www.dailystory.com/contact-us).
+For technical questions, please visit Stack Overflow’s [DailyStory tag](http://stackoverflow.com/). For all other questions, [please contact us](https://www.dailystory.com/contact-us/).
 
 ### What are the requirements?
 This plugin requires a DailyStory Site ID and Site Url. You can find your DailyStory Site ID on the Tracking Code page in settings
 
-If you are not a customer you can [sign up for the free plan](https://dailystory.com/pricing) to get your DailyStory Site ID and try our WordPress integration.
+If you are not a customer you can [sign up for the free plan](https://dailystory.com/pricing/) to get your DailyStory Site ID and try our WordPress integration.
 
 We recommend using WordPress version 4.0 or greater, but we've tested up to version 6.1.
 
