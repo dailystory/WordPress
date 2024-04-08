@@ -100,10 +100,10 @@ class DailyStoryShortCodes {
     	$webform_id = shortcode_atts(['id' => '0',], $atts, $tag);
 		$webform_id = esc_html__($webform_id['id'], 'ds-webform') ;
 		// Add the script reference, pulled from DailyStory, but eventually will be served from a CDN
-		wp_register_script('ds-landingpages', 'https://pages.dailystory.com/bundles/dailystory-landingpage', null,'2.0.5', true);
+		wp_register_script('ds-landingpages', 'https://pages.dailystory.com/bundles/dailystory-landingpage', null,'2.0.6', true);
 		wp_enqueue_script('ds-landingpages');
 		// enqueue css
-		wp_enqueue_style('ds-webform','https://forms.dailystory.com/content/base_webform.css', null, '2.0.5', 'all');
+		wp_enqueue_style('ds-webform','https://forms.dailystory.com/content/hosted-webform-min', null, '2.0.6', 'all');
 		// get the tenant uid
     	$options = get_option('dailystory_settings');
 		$tenantuid = $options['dailystory_tenant_uid'];
