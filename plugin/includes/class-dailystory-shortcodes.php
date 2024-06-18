@@ -20,6 +20,7 @@ class DailyStoryShortCodes {
     	    add_shortcode('ds-popup', array( 'DailyStoryShortCodes', 'dailystory_popup_shortcode' ));
         }
     }
+
 	// ──────────────────────────────────────────────
 	// Returns the body content from a URL
 	//
@@ -92,6 +93,7 @@ class DailyStoryShortCodes {
 	public static function dailystory_webform_shortcode($atts, $content=null) {
     	// normalize attribute keys, lowercase
     	$atts = array_change_key_case((array)$atts, CASE_LOWER);
+		$version = "2.1.1";
  
     	// override default attributes with user attributes
 		$atts = shortcode_atts(['id' => '0', 'redirect_url' => ''], $atts);
@@ -99,11 +101,11 @@ class DailyStoryShortCodes {
 		$redirect_url = esc_url_raw($atts['redirect_url']);
 
 		// Add the script reference, pulled from DailyStory, but eventually will be served from a CDN
-		wp_register_script('ds-landingpages', 'https://pages.dailystory.com/bundles/dailystory-landingpage', null,'2.0.6', true);
+		wp_register_script('ds-landingpages', 'https://pages.dailystory.com/bundles/dailystory-landingpage', null,$version, true);
 		wp_enqueue_script('ds-landingpages');
 
 		// enqueue css
-		wp_enqueue_style('ds-webform','https://forms.dailystory.com/content/hosted-webform-min', null, '2.0.6', 'all');
+		wp_enqueue_style('ds-webform','https://forms.dailystory.com/content/hosted-webform-min', null, $version, 'all');
 
 			// get the tenant uid
     	$options = get_option('dailystory_settings');
