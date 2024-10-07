@@ -3,7 +3,7 @@ Contributors: dailystory, roberthoward
 Tags: marketing, sales, automation
 Requires at least: 4.0
 Tested up to: 6.6.2
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GNU General Public License v2.0 or later
 
 [DailyStory](https://www.dailystory.com/) automates outbound sales, client engagement, and follow-up in order to generate interest at the top of the sales funnel. It results in a 100 times greater cost efficiency per acquired customer compared to traditional advertising methods. By utilizing personalized email and text message marketing, it also increases engagement.

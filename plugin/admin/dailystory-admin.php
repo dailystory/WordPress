@@ -4,8 +4,8 @@
 // ──────────────────────────────────────────────
 if ( !defined('DAILYSTORY_PLUGIN_VERSION') )
 {
-    header('HTTP/1.0 403 Forbidden');
-    die;
+    header('HTTP/1.1 403 Forbidden');
+    exit;
 }
 
 // Include the required files for the plugin

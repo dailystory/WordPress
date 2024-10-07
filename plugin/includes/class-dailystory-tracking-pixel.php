@@ -41,7 +41,7 @@ class DailyStoryTrackingPixel {
     	if ( ! isset($options['dailystory_tenant_uid']) || ( isset($options['dailystory_tenant_uid']) && ! $options['dailystory_tenant_uid'] ) || ( isset($options['dailystory_tenant_url']) && ! $options['dailystory_tenant_url'] ))
     	{
         ?>
-        <div class="error">
+        <div class="notice notice-error">
             <p><b>DailyStory for WordPress is disabled Please <a href='options-general.php?page=dailystory-admin.php'>enter your DailyStory Site ID</a> to enable DailyStory integration.</b></p>
         </div>
         <?php
@@ -63,6 +63,10 @@ class DailyStoryTrackingPixel {
 
         if ( isset($options['dailystory_tenant_uid']) && $options['dailystory_tenant_uid'] != '' && $options['dailystory_tenant_url'] != '')
         {
+            // Sanitize the tenant URL and tenant UID
+            $tenant_url = esc_url(trim($options['dailystory_tenant_url']));
+            $tenant_uid = esc_html(trim($options['dailystory_tenant_uid']));
+            
             // This in the script that gets injected, this should be identical
             // to what is on https://app.dailystory.com
             echo "\n".'<!-- DailyStory Tracking Pixel for WordPress v' . DAILYSTORY_PLUGIN_VERSION . ' -->' . "\n";
@@ -71,11 +75,11 @@ class DailyStoryTrackingPixel {
             echo '    d._dsSettings=i;' . "\n";
             echo '    r = a.createElement("script");' . "\n";
             echo '    o = a.getElementsByTagName("script")[0];' . "\n";
-            echo '    r.src= "' . trim($options['dailystory_tenant_url']) . '/ds/ds" + i + ".js";' . "\n";
+            echo '    r.src= "' . $tenant_url . '/ds/ds" + i + ".js";' . "\n";
             echo '    r.async = true;' . "\n";
             echo '    r.id = "ds-sitescript";' . "\n";
             echo '    o.parentNode.insertBefore(r, o);' . "\n";
-            echo '})(window,document,"' . trim($options['dailystory_tenant_uid']) . '");' . "\n";
+            echo '})(window,document,"' . $tenant_uid . '");' . "\n";
             echo '</script>' . "\n";
         }
     }
