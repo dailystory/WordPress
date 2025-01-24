@@ -28,23 +28,34 @@ class DailyStoryShortCodes {
 	// ──────────────────────────────────────────────
 	public static function get_data($url) {
 		$ch = curl_init();
+	
+		// Set cURL options
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_FAILONERROR, 1);
 		curl_setopt($ch, CURLOPT_FRESH_CONNECT, 1);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); // Disable SSL certificate verification
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2); // Verify SSL host
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 0); // No timeout for connection
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Request timeout
 		curl_setopt($ch, CURLOPT_POST, 0);
+	
+		// Execute cURL request
 		$cc_result = curl_exec($ch);
+		$cc_error = ''; // Initialize error variable
+	
+		// Check for errors
 		if (curl_errno($ch) || curl_error($ch)) {
 			$cc_error = curl_errno($ch) . ": " . curl_error($ch);
 		}
+	
+		// Close cURL session
 		curl_close($ch);
-		return(array($cc_result, $cc_error));
-	} // end get_data function
+	
+		// Return result and error
+		return array($cc_result, $cc_error);
+	}
 	// ──────────────────────────────────────────────
 	// Routine for [ds-exitintent] shortcode, this shortcode 
 	// forces a dailystory exit intent to display (if it exists)
@@ -93,7 +104,6 @@ class DailyStoryShortCodes {
 	public static function dailystory_webform_shortcode($atts, $content=null) {
     	// normalize attribute keys, lowercase
     	$atts = array_change_key_case((array)$atts, CASE_LOWER);
-		$version = "2.1.1";
  
     	// override default attributes with user attributes
 		$atts = shortcode_atts(['id' => '0', 'redirect_url' => ''], $atts);
@@ -101,11 +111,11 @@ class DailyStoryShortCodes {
 		$redirect_url = esc_url_raw($atts['redirect_url']);
 
 		// Add the script reference, pulled from DailyStory, but eventually will be served from a CDN
-		wp_register_script('ds-landingpages', 'https://pages.dailystory.com/bundles/dailystory-landingpage', null,$version, true);
+		wp_register_script('ds-landingpages', 'https://pages.dailystory.com/bundles/dailystory-landingpage', null, DAILYSTORY_PLUGIN_VERSION, true);
 		wp_enqueue_script('ds-landingpages');
 
 		// enqueue css
-		wp_enqueue_style('ds-webform','https://forms.dailystory.com/content/hosted-webform-min', null, $version, 'all');
+		wp_enqueue_style('ds-webform','https://forms.dailystory.com/content/hosted-webform-min', null, DAILYSTORY_PLUGIN_VERSION, 'all');
 
 			// get the tenant uid
     	$options = get_option('dailystory_settings');
