@@ -111,15 +111,20 @@ class DailyStoryShortCodes {
 		$redirect_url = esc_url_raw($atts['redirect_url']);
 
 		// Add the script reference, pulled from DailyStory, but eventually will be served from a CDN
-		wp_register_script('ds-landingpages', 'https://pages.dailystory.com/bundles/dailystory-landingpage', null, DAILYSTORY_PLUGIN_VERSION, true);
+		wp_register_script('ds-landingpages', 'https://pages.dailystory.com/bundles/dailystory-landingpage', [], DAILYSTORY_PLUGIN_VERSION, true);
 		wp_enqueue_script('ds-landingpages');
 
-		// enqueue css
-		wp_enqueue_style('ds-webform','https://forms.dailystory.com/content/hosted-webform-min', null, DAILYSTORY_PLUGIN_VERSION, 'all');
+		// Add the script reference for iti
+		wp_register_script('ds-iti-script', 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.15/js/intlTelInput.min.js', [], DAILYSTORY_PLUGIN_VERSION, true);
+		wp_enqueue_script('ds-iti-script');
 
-			// get the tenant uid
+		// enqueue css
+		wp_enqueue_style('ds-webform','https://forms.dailystory.com/content/hosted-webform-min', [], DAILYSTORY_PLUGIN_VERSION, 'all');
+		wp_enqueue_style('ds-iti','https://cdn.jsdelivr.net/npm/intl-tel-input@18.2.1/build/css/intlTelInput.css', [], DAILYSTORY_PLUGIN_VERSION, 'all');
+
+		// get the tenant uid
     	$options = get_option('dailystory_settings');
-		$tenantuid = $options['dailystory_tenant_uid'];
+		$tenantuid = $options['dailystory_tenant_uid'] ? $options['dailystory_tenant_uid'] : '';
 
 		// Build the URL with query string
 		$url = 'https://forms.dailystory.com/webform/' . $tenantuid . '/' . $webform_id;

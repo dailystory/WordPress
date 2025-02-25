@@ -19,7 +19,7 @@ This handles the actual shortcode processing.
 This handles adding the tracking pixel.
 
 ### Current Supported Version
-version 2.1.4, Updated January 2025
+version 2.1.5, Updated February 2025
 
 ## License
 The DailyStory for WordPress plugin is licensed under GNU General Public License v2.0 or later.

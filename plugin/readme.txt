@@ -2,13 +2,13 @@
 Contributors: dailystory, roberthoward
 Tags: marketing, sales, automation
 Requires at least: 4.0
-Tested up to: 6.6.2
-Stable tag: 2.1.4
+Tested up to: 6.7
+Stable tag: 2.1.5
 License: GNU General Public License v2.0 or later
 
 [DailyStory](https://www.dailystory.com/) automates outbound sales, client engagement, and follow-up in order to generate interest at the top of the sales funnel. It results in a 100 times greater cost efficiency per acquired customer compared to traditional advertising methods. By utilizing personalized email and text message marketing, it also increases engagement.
 
-The DailyStory plugin makes it easy to integrate popups, web forms, conversion tracking and additional functionalities to your current WordPress website.
+The DailyStory plugin makes it easy to integrate popups, web forms, conversion tracking and additional functionalities to your current WordPress website:
 
 * Embed DailyStory's drag-and-drop web forms directly into any post, page or sidebar
 * Utilize visitor tracking to trigger automations when people visit pages in your website
@@ -91,6 +91,9 @@ The source for the DailyStory plugin is maintained on GitHub. You can [clone the
 2. **Web Form Designer** - Design web forms within DailyStory and then use WordPress shortcodes to easily embed them in your WordPress site.
 
 ## Changelog
+
+### 2.1.5
+* Updates to handle iti for collection of phone numbers
 
 ### 2.1.4
 * Updates to handle messages when WordPress is in debug mode
