@@ -3,7 +3,7 @@ Contributors: dailystory, roberthoward
 Tags: marketing, sales, automation
 Requires at least: 4.0
 Tested up to: 6.7
-Stable tag: 2.1.5
+Stable tag: 2.1.6
 License: GNU General Public License v2.0 or later
 
 [DailyStory](https://www.dailystory.com/) automates outbound sales, client engagement, and follow-up in order to generate interest at the top of the sales funnel. It results in a 100 times greater cost efficiency per acquired customer compared to traditional advertising methods. By utilizing personalized email and text message marketing, it also increases engagement.
@@ -91,6 +91,9 @@ The source for the DailyStory plugin is maintained on GitHub. You can [clone the
 2. **Web Form Designer** - Design web forms within DailyStory and then use WordPress shortcodes to easily embed them in your WordPress site.
 
 ## Changelog
+
+### 2.1.6
+* Paths update for CSS and JavaScript
 
 ### 2.1.5
 * Updates to handle iti for collection of phone numbers
