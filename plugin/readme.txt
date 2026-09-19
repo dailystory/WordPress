@@ -1,9 +1,10 @@
 # Email and SMS marketing for WordPress by DailyStory
 Contributors: dailystory, roberthoward
-Tags: marketing, sales, automation
-Requires at least: 4.0
-Tested up to: 6.7
-Stable tag: 2.1.6
+Tags: marketing, sales, automation, woocommerce, email
+Requires at least: 5.0
+Tested up to: 6.8
+Requires PHP: 7.2
+Stable tag: 2.2.0
 License: GNU General Public License v2.0 or later
 
 [DailyStory](https://www.dailystory.com/) automates outbound sales, client engagement, and follow-up in order to generate interest at the top of the sales funnel. It results in a 100 times greater cost efficiency per acquired customer compared to traditional advertising methods. By utilizing personalized email and text message marketing, it also increases engagement.
@@ -91,6 +92,19 @@ The source for the DailyStory plugin is maintained on GitHub. You can [clone the
 2. **Web Form Designer** - Design web forms within DailyStory and then use WordPress shortcodes to easily embed them in your WordPress site.
 
 ## Changelog
+
+### 2.2.0
+* WooCommerce: product view, add to cart and cart activity tracking for abandoned cart automations
+* WooCommerce: order conversion tracking on the order received page for revenue attribution
+* WooCommerce: High-Performance Order Storage (HPOS) compatibility declared
+* Identify signed-in visitors to DailyStory so a session ties to a known contact
+* Security: web form requests now verify TLS certificates and use the WordPress HTTP API
+* The settings page now requires the manage_options capability
+* Fixed the Site URL being corrupted when the host began with h, t, p, s or :
+* Settings values are now sanitized on save and escaped on output
+* Beacon moved from the page footer to the head, matching our documentation
+* Fixed an undefined variable warning on PHP 8 in the popup shortcodes
+* The plugin version constant now tracks the release version, so asset cache busting works
 
 ### 2.1.6
 * Paths update for CSS and JavaScript

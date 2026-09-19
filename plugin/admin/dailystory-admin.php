@@ -2,51 +2,56 @@
 // ──────────────────────────────────────────────
 // Prevent direct access to this file
 // ──────────────────────────────────────────────
-if ( !defined('DAILYSTORY_PLUGIN_VERSION') )
+if ( ! defined( 'ABSPATH' ) || ! defined('DAILYSTORY_PLUGIN_VERSION') )
 {
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
 
-// Include the required files for the plugin
-include_once(ABSPATH . 'wp-admin/includes/plugin.php');
-
 // ──────────────────────────────────────────────
-// Constant for accessing the admin file(s)
+// Page slug for the settings screen. Previously this was
+// untrailingslashit(__FILE__) via two constants that held the same value, so
+// the same section and its hidden fields were registered twice.
 // ──────────────────────────────────────────────
-if ( !defined('DAILYSTORY_ADMIN_PATH') )
-    define('DAILYSTORY_ADMIN_PATH', untrailingslashit(__FILE__));
+if ( !defined('DAILYSTORY_ADMIN_PAGE') )
+    define('DAILYSTORY_ADMIN_PAGE', 'dailystory-admin.php');
 
-if ( !defined('DAILYSTORY_ADMIN_URL') )
-    define('DAILYSTORY_ADMIN_URL', untrailingslashit(__FILE__));
+// Capability required to view and change DailyStory settings. The Site ID and
+// Site URL decide where the beacon JavaScript is loaded from, so this is an
+// administrator-level setting, not an author-level one.
+if ( !defined('DAILYSTORY_ADMIN_CAPABILITY') )
+    define('DAILYSTORY_ADMIN_CAPABILITY', 'manage_options');
 
 // ──────────────────────────────────────────────
 // DailyStoryPluginAdmin is used to enable end users to easily
 // set their DailyStory site id for integration with WordPress - this
-// site id is required to writ the tracking pixel and for using shortcodes
+// site id is required to write the tracking pixel and for using shortcodes
 // ──────────────────────────────────────────────
 class DailyStoryPluginAdmin {
-    
+
     // Constructor for the class
     function __construct () {
 
-        // Get the option values for DailyStory
-        $options = get_option('dailystory_settings');
-
-        add_action('admin_menu', array(&$this, 'add_menu_items'));
-        add_action('admin_init', array(&$this, 'build_settings_page'));
+        add_action('admin_menu', array($this, 'add_menu_items'));
+        add_action('admin_init', array($this, 'build_settings_page'));
         add_filter('plugin_action_links_' . DAILYSTORY_PLUGIN_SLUG . '/dailystory.php', array($this, 'build_settings_links'));
     }
 
     // ──────────────────────────────────────────────
-    // Add the menu item 'DailyStory Settings' items 
+    // Add the menu item 'DailyStory Settings' items
     // so users can set their DailyStory Site ID
     // ──────────────────────────────────────────────
     function add_menu_items ()
     {
-    	add_submenu_page('options-general.php', 'DailyStory', 'DailyStory', 'edit_posts', basename(__FILE__), array($this, 'render_settings_ux'));
+        add_submenu_page(
+            'options-general.php',
+            'DailyStory',
+            'DailyStory',
+            DAILYSTORY_ADMIN_CAPABILITY,
+            DAILYSTORY_ADMIN_PAGE,
+            array($this, 'render_settings_ux')
+        );
     }
-
 
     // ──────────────────────────────────────────────
     // Build a list of Settings links displayed in
@@ -54,41 +59,30 @@ class DailyStoryPluginAdmin {
     // ──────────────────────────────────────────────
     function build_settings_links ( $links )
     {
-        $url = get_admin_url() . 'options-general.php?page=dailystory-admin.php';
-        $settings_link = '<a href="' . $url . '">Settings</a>';
+        $url = admin_url('options-general.php?page=' . DAILYSTORY_ADMIN_PAGE);
+        $settings_link = '<a href="' . esc_url($url) . '">Settings</a>';
         array_unshift($links, $settings_link);
         return $links;
     }
 
     // ──────────────────────────────────────────────
-    // Build a list of Settings links displayed in
-    // the plugin UX
+    // Register the setting, its section and its fields
     // ──────────────────────────────────────────────
     function build_settings_page ()
     {
-        global $pagenow;
-        $options = get_option('dailystory_settings');
-
         register_setting(
             'dailystory_settings_options',
             'dailystory_settings',
-            array($this, 'sanitize')
+            array(
+                'sanitize_callback' => array($this, 'sanitize'),
+            )
         );
 
-        // Site ID
         add_settings_section(
             'dailystory_settings_section',
             '',
             array($this, 'dailystory_settings_section_heading'),
-            DAILYSTORY_ADMIN_PATH
-        );
-
-        // Site URL
-        add_settings_section(
-            'dailystory_settings_section',
-            '',
-            array($this, 'dailystory_settings_section_heading'),
-            DAILYSTORY_ADMIN_URL
+            DAILYSTORY_ADMIN_PAGE
         );
 
         // Site ID
@@ -96,7 +90,7 @@ class DailyStoryPluginAdmin {
             'dailystory_tenant_uid',
             'DailyStory Site ID',
             array($this, 'dailystory_tenant_uid_callback'),
-            DAILYSTORY_ADMIN_PATH,
+            DAILYSTORY_ADMIN_PAGE,
             'dailystory_settings_section'
         );
 
@@ -105,9 +99,28 @@ class DailyStoryPluginAdmin {
             'dailystory_tenant_url',
             'DailyStory Site Url',
             array($this, 'dailystory_tenant_url_callback'),
-            DAILYSTORY_ADMIN_URL,
+            DAILYSTORY_ADMIN_PAGE,
             'dailystory_settings_section'
         );
+
+        // WooCommerce store tracking, only when WooCommerce is installed
+        if ( class_exists('DailyStoryWooCommerce') && DailyStoryWooCommerce::is_woocommerce_active() ) {
+
+            add_settings_section(
+                'dailystory_woocommerce_section',
+                'WooCommerce',
+                array($this, 'dailystory_woocommerce_section_heading'),
+                DAILYSTORY_ADMIN_PAGE
+            );
+
+            add_settings_field(
+                'dailystory_woo_tracking',
+                'Store tracking',
+                array($this, 'dailystory_woo_tracking_callback'),
+                DAILYSTORY_ADMIN_PAGE,
+                'dailystory_woocommerce_section'
+            );
+        }
     }
 
     function dailystory_settings_section_heading ( )
@@ -115,9 +128,14 @@ class DailyStoryPluginAdmin {
         $this->print_hidden_settings_fields();
     }
 
+    function dailystory_woocommerce_section_heading ( )
+    {
+        echo '<p>WooCommerce was detected on this site. Store tracking sends product views, cart activity and completed orders to DailyStory so you can build abandoned cart and post-purchase automations.</p>';
+    }
+
     function print_hidden_settings_fields ()
     {
-         // Hacky solution to solve the Settings API overwriting the default values
+        // Hacky solution to solve the Settings API overwriting the default values
         $options = get_option('dailystory_settings');
 
         $dailystory_installed = ( isset($options['dailystory_installed']) ? $options['dailystory_installed'] : 1 );
@@ -125,12 +143,12 @@ class DailyStoryPluginAdmin {
 
         printf(
             '<input id="dailystory_installed" type="hidden" name="dailystory_settings[dailystory_installed]" value="%d"/>',
-            $dailystory_installed
+            (int) $dailystory_installed
         );
 
         printf(
             '<input id="dailystory_version" type="hidden" name="dailystory_settings[dailystory_version]" value="%s"/>',
-            $dailystory_version
+            esc_attr($dailystory_version)
         );
     }
 
@@ -141,6 +159,8 @@ class DailyStoryPluginAdmin {
     // ──────────────────────────────────────────────
     function render_settings_ux ()
     {
+        if ( ! current_user_can(DAILYSTORY_ADMIN_CAPABILITY) )
+            wp_die('You do not have sufficient permissions to access this page.');
         ?>
         <div class="wrap">
             <h2>DailyStory Settings</h2>
@@ -154,7 +174,7 @@ class DailyStoryPluginAdmin {
                                 Enter your DailyStory Site ID and Site URL below to enable DailyStory's WordPress integration.
                                 <?php
                                 settings_fields('dailystory_settings_options');
-                                do_settings_sections(DAILYSTORY_ADMIN_PATH);
+                                do_settings_sections(DAILYSTORY_ADMIN_PAGE);
                                 ?>
                                 </div>
                                 <div id="major-publishing-actions">
@@ -178,8 +198,8 @@ class DailyStoryPluginAdmin {
                                 <br>If you are already using DailyStory <a target='_blank' href='https://docs.dailystory.com/article/8omibw2171-word-press-and-dailystory-integration'>see the instructions</a> for setting up WordPress integration.
                                 </p>
 								<p><b>I'm not using DailyStory</b>
-                                <br>First, <a target='_blank' href='https://dailystory.com/pricing'>sign up for free</a>. Then follow the instructions above to get your Site ID and Url.</a></p>
-								<p><b>Learn more about WordPress Integration</b><br><a target='_blank' href='https://www.dailystory.com/integrations/wordpress'>Learn more about DailyStory's WordPress integration</a>, such as the available shortcodes.
+                                <br>First, <a target='_blank' href='https://dailystory.com/pricing'>sign up for free</a>. Then follow the instructions above to get your Site ID and Url.</p>
+								<p><b>Learn more about WordPress Integration</b><br><a target='_blank' href='https://www.dailystory.com/integrations/wordpress'>Learn more about DailyStory's WordPress integration</a>, such as the available shortcodes.</p>
                             </div>
                         </div> <!-- end postbox -->
                     </div> <!-- end meta-box -->
@@ -190,36 +210,44 @@ class DailyStoryPluginAdmin {
     }
 
     // ──────────────────────────────────────────────
-    // 
+    // Sanitize the submitted settings
     // ──────────────────────────────────────────────
     public function sanitize ( $input )
     {
         $new_input = array();
 
-        $options = get_option('dailystory_settings');
+        if ( ! is_array($input) )
+            return $new_input;
 
         if ( isset($input['dailystory_tenant_uid']) )
-            $new_input['dailystory_tenant_uid'] = $input['dailystory_tenant_uid'];
+            $new_input['dailystory_tenant_uid'] = sanitize_text_field($input['dailystory_tenant_uid']);
 
         if ( isset($input['dailystory_tenant_url']) ) {
-            
-            $url = $input['dailystory_tenant_url'];
-            
-            // trim ending slash
-            $url = rtrim($url, '/');            
-            
-            // trim https: or http: from beginning of string
-            $url = ltrim($url, 'https:');
-            $url = ltrim($url, 'https');
-            
-            $new_input['dailystory_tenant_url'] = $url;
+
+            $url = trim( (string) $input['dailystory_tenant_url'] );
+
+            // Strip the scheme if one was supplied, then store an absolute
+            // https URL.
+            //
+            // This used to be ltrim($url, 'https:'), which treats its second
+            // argument as a *character set*, not a prefix - so any host
+            // beginning with h, t, p, s or : lost those characters
+            // ("sts.dailystory.com" became "ts.dailystory.com").
+            $url = preg_replace('#^[a-z][a-z0-9+.-]*://#i', '', $url);
+            $url = ltrim($url, '/');
+            $url = rtrim($url, '/');
+
+            $new_input['dailystory_tenant_url'] = ( '' === $url ) ? '' : esc_url_raw('https://' . $url);
         }
-        
+
         if ( isset($input['dailystory_installed']) )
-            $new_input['dailystory_installed'] = $input['dailystory_installed'];
+            $new_input['dailystory_installed'] = (int) $input['dailystory_installed'];
 
         if ( isset($input['dailystory_version']) )
-            $new_input['dailystory_version'] = $input['dailystory_version'];
+            $new_input['dailystory_version'] = sanitize_text_field($input['dailystory_version']);
+
+        // Checkbox: absent means off
+        $new_input['dailystory_woo_tracking'] = ! empty($input['dailystory_woo_tracking']) ? 1 : 0;
 
         return $new_input;
     }
@@ -229,14 +257,12 @@ class DailyStoryPluginAdmin {
     // ──────────────────────────────────────────────
     function dailystory_tenant_uid_callback ()
     {
-        // Get the option values for DailyStory if we find them
         $options = get_option('dailystory_settings');
-        $dailystory_tenant_uid  = ( isset($options['dailystory_tenant_uid']) && $options['dailystory_tenant_uid'] ? $options['dailystory_tenant_uid'] : '' );
+        $value   = isset($options['dailystory_tenant_uid']) ? $options['dailystory_tenant_uid'] : '';
 
-        // Render the input textbox with any found value
         printf(
-            '<input id="dailystory_tenant_uid" type="text" id="title" name="dailystory_settings[dailystory_tenant_uid]" size="15" class="regular-text code active" value="%s"/>',
-            $dailystory_tenant_uid
+            '<input id="dailystory_tenant_uid" type="text" name="dailystory_settings[dailystory_tenant_uid]" size="15" class="regular-text code active" value="%s"/>',
+            esc_attr($value)
         );
     }
 
@@ -245,16 +271,28 @@ class DailyStoryPluginAdmin {
     // ──────────────────────────────────────────────
     function dailystory_tenant_url_callback ()
     {
-        // Get the option values for DailyStory if we find them
         $options = get_option('dailystory_settings');
-        $dailystory_tenant_url  = ( isset($options['dailystory_tenant_url']) && $options['dailystory_tenant_url'] ? $options['dailystory_tenant_url'] : '' );
+        $value   = isset($options['dailystory_tenant_url']) ? $options['dailystory_tenant_url'] : '';
 
-        // Render the input textbox with any found value
         printf(
-            '<input id="dailystory_tenant_url" type="text" id="url" name="dailystory_settings[dailystory_tenant_url]" size="15" class="regular-text code active" value="%s"/>',
-            $dailystory_tenant_url
+            '<input id="dailystory_tenant_url" type="text" name="dailystory_settings[dailystory_tenant_url]" size="15" class="regular-text code active" value="%s" placeholder="https://us-1.dailystory.com"/>',
+            esc_attr($value)
+        );
+    }
+
+    // ──────────────────────────────────────────────
+    // Gets the checkbox for WooCommerce store tracking
+    // ──────────────────────────────────────────────
+    function dailystory_woo_tracking_callback ()
+    {
+        $options = get_option('dailystory_settings');
+
+        // Default on once WooCommerce is detected
+        $enabled = ! isset($options['dailystory_woo_tracking']) || $options['dailystory_woo_tracking'];
+
+        printf(
+            '<label><input id="dailystory_woo_tracking" type="checkbox" name="dailystory_settings[dailystory_woo_tracking]" value="1" %s/> Send product views, cart activity and completed orders to DailyStory</label>',
+            checked($enabled, true, false)
         );
     }
 }
-
-?>
