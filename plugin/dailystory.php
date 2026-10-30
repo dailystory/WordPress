@@ -3,7 +3,7 @@
 Plugin Name: DailyStory Marketing Automation
 Plugin URI: https://docs.dailystory.com/article/8omibw2171-integrations-wordpress
 Description: The DailyStory plugin simplifies the process of adding popups, web forms, conversion tracking, WooCommerce store tracking, and other features to your WordPress website.
-Version: 2.2.0
+Version: 2.3.0
 Requires at least: 5.0
 Requires PHP: 7.2
 Author: DailyStory
@@ -41,7 +41,7 @@ class DailyStoryPlugin {
 		// behind the header (as it did at 2.1.4 through 2.1.6) asset updates
 		// ship under a stale version string and stay cached.
 		if ( !defined('DAILYSTORY_PLUGIN_VERSION') )
-			define('DAILYSTORY_PLUGIN_VERSION', '2.2.0');
+			define('DAILYSTORY_PLUGIN_VERSION', '2.3.0');
 
 		// ──────────────────────────────────────────────
 		// Load required files
@@ -49,6 +49,7 @@ class DailyStoryPlugin {
 		require_once(DAILYSTORY_PLUGIN_PATH . '/includes/class-dailystory-shortcodes.php');
 		require_once(DAILYSTORY_PLUGIN_PATH . '/includes/class-dailystory-tracking-pixel.php');
 		require_once(DAILYSTORY_PLUGIN_PATH . '/includes/class-dailystory-woocommerce.php');
+		require_once(DAILYSTORY_PLUGIN_PATH . '/includes/class-dailystory-connect.php');
 
 		// The admin class pulls in wp-admin/includes/plugin.php, so it must not
 		// load on front-end requests.
@@ -63,8 +64,36 @@ class DailyStoryPlugin {
 		// WooCommerce initializes, which is earlier than 'init'.
 		add_action( 'before_woocommerce_init', array('DailyStoryWooCommerce', 'declare_hpos_compatibility') );
 
+		// Daily check that the DailyStory connection is still live. Cron runs on
+		// front-end requests too, so this is registered outside the admin.
+		add_action( DailyStoryConnect::CRON_HOOK, array('DailyStoryConnect', 'cron_verify') );
+
+		// Send a newly activated plugin to its settings page
+		register_activation_hook(__FILE__, array('DailyStoryPlugin', 'dailystory_activate'));
+
 		// handle uninstall requests
 		register_uninstall_hook(__FILE__, array('DailyStoryPlugin', 'dailystory_uninstall'));
+	}
+
+	// ──────────────────────────────────────────────
+	// Change some DailyStory settings and keep the rest.
+	//
+	// Every write to dailystory_settings outside the settings form goes through
+	// here, so a change to one value can never drop another one (for example
+	// switching WooCommerce store tracking off by leaving its key out).
+	// ──────────────────────────────────────────────
+	public static function update_settings ( $changes ) {
+
+		$options = get_option('dailystory_settings');
+
+		if ( ! is_array($options) )
+			$options = array();
+
+		update_option('dailystory_settings', array_merge($options, $changes));
+	}
+
+	public static function dailystory_activate () {
+		set_transient('dailystory_activation_redirect', 1, 30);
 	}
 
 	// ──────────────────────────────────────────────
@@ -102,8 +131,13 @@ class DailyStoryPlugin {
 	}
 
 	public static function dailystory_uninstall() {
-		// Remove any options we stored
+		// Revoke the connection in DailyStory, then remove any options we stored
+		DailyStoryConnect::disconnect();
+
 		delete_option('dailystory_settings');
+		delete_option(DailyStoryConnect::CLIENT_OPTION);
+		delete_option(DailyStoryConnect::LOCK_OPTION);
+		delete_option('dailystory_tracking_check');
 	}
 }
 DailyStoryPlugin::get_instance();	// create an instance

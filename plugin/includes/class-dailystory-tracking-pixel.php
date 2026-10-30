@@ -14,14 +14,9 @@ class DailyStoryTrackingPixel {
     // ──────────────────────────────────────────────
     function __construct () {
 
-        if ( is_admin() )
-        {
-            if ( ! defined('DOING_AJAX') || ! DOING_AJAX )
-            {
-                add_action('admin_notices', array($this, 'activation'));
-            }
-        }
-        else
+        // The "not set up yet" notice lives in the admin class
+        // (DailyStoryPluginAdmin::setup_notice).
+        if ( ! is_admin() )
         {
             // The beacon belongs in <head>, not the footer. Our own documentation
             // tells customers to place it there, and popups, Magic Forms and any
@@ -30,28 +25,6 @@ class DailyStoryTrackingPixel {
             add_action('wp_head', array($this, 'renderPixel'), 5);
         }
 
-    }
-
-    // ──────────────────────────────────────────────
-    // Ensure the plugin Site Id is set, if it is not
-    // we'll dump an error into the WordPress plugin admin
-    // ──────────────────────────────────────────────
-    function activation ()
-    {
-        $options = get_option('dailystory_settings');
-
-        // do we have an admin page
-        if ( isset($_GET['page']) && 'dailystory-admin.php' === $_GET['page'] )
-            return FALSE;
-
-        if ( empty($options['dailystory_tenant_uid']) || empty($options['dailystory_tenant_url']) )
-        {
-        ?>
-        <div class="notice notice-error">
-            <p><b>DailyStory for WordPress is disabled. Please <a href='options-general.php?page=dailystory-admin.php'>enter your DailyStory Site ID</a> to enable DailyStory integration.</b></p>
-        </div>
-        <?php
-        }
     }
 
     // ──────────────────────────────────────────────

@@ -4,7 +4,7 @@ Tags: marketing, sales, automation, woocommerce, email
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 2.2.0
+Stable tag: 2.3.0
 License: GNU General Public License v2.0 or later
 
 [DailyStory](https://www.dailystory.com/) automates outbound sales, client engagement, and follow-up in order to generate interest at the top of the sales funnel. It results in a 100 times greater cost efficiency per acquired customer compared to traditional advertising methods. By utilizing personalized email and text message marketing, it also increases engagement.
@@ -37,14 +37,16 @@ Visit [dailystory.com](https://www.dailystory.com/features/) to see all our grea
 
 ## Installation
 
-Installing the DailyStory WordPress Plugin in simple. Just add it to your site from your WordPress Plugin Dashboard. Then, add your DailyStory Site ID and you're all done.
+Installing the DailyStory WordPress Plugin is simple. Add it to your site from your WordPress Plugin Dashboard, then click "Connect to DailyStory" and sign in. Your Site ID and Site URL are filled in for you.
 
 ### From your WordPress dashboard
 1. Visit "Plugins > Add New"
 2. Search for "DailyStory"
 3. Activate the plugin
-4. After the plugin is activated, click "DailyStory Settings"
-5. Enter your DailyStory Site ID and Site Url and click "Save Settings"
+4. The DailyStory settings page opens. Click "Connect to DailyStory"
+5. Sign in to DailyStory, choose your account and click "Allow"
+
+Prefer not to sign in from WordPress? On the settings page, paste your Site ID or the whole tracking code from Settings > Website in DailyStory and click "Save Settings".
 
 ### From WordPress.org
 1. Download the plugin
@@ -52,8 +54,7 @@ Installing the DailyStory WordPress Plugin in simple. Just add it to your site f
 3. Upload the "dailystory" directory to your '/wp-content/plugins/' directory, using your favorite method (ftp, sftp, scp, etc...)
 4. Open your WordPress admin dashboard and click "Plugins" in the left sidebar
 5. Activate the plugin
-6. After the plugin is activated, click "DailyStory Settings"
-7. Enter your DailyStory Site ID and Site Url and click "Save Settings"
+6. The DailyStory settings page opens. Click "Connect to DailyStory", or paste your Site ID or tracking code
 
 ### Clone from GitHub
 You can [clone the DailyStory WordPress plugin from our GitHub repository](https://github.com/DailyStory/WordPress/). If you fix bugs, or add features, we would appreciate a pull request so we can share these with other users in the DailyStory community.
@@ -75,11 +76,13 @@ The easiest way to try DailyStory is to [start for free](https://dailystory.com/
 For technical questions, please visit Stack Overflow’s [DailyStory tag](http://stackoverflow.com/). For all other questions, [please contact us](https://www.dailystory.com/contact-us/).
 
 ### What are the requirements?
-This plugin requires a DailyStory Site ID and Site Url. You can find your DailyStory Site ID on the Tracking Code page in settings
+This plugin requires a DailyStory account. Click "Connect to DailyStory" on the plugin's settings page to set it up, or paste the tracking code from Settings > Website in DailyStory.
+
+One-click connect needs your WordPress admin to use https. Sites on plain http can still paste their tracking code.
 
 If you are not a customer you can [sign up for the free plan](https://dailystory.com/pricing/) to get your DailyStory Site ID and try our WordPress integration.
 
-We recommend using WordPress version 4.0 or greater, but we've tested up to version 6.1.
+The plugin requires WordPress 5.0 and PHP 7.2 or greater, and is tested up to WordPress 6.8.
 
 ### What is the DailyStory Tracking Tag?
 The DailyStory tracking tag (about 12 lines of JavaScript) is used by DailyStory to track customer activity as they browse your web or mobile experience. It also adds the ability to render popups, content A/B testing, run page triggers, page covers, surveys and more.
@@ -92,6 +95,15 @@ The source for the DailyStory plugin is maintained on GitHub. You can [clone the
 2. **Web Form Designer** - Design web forms within DailyStory and then use WordPress shortcodes to easily embed them in your WordPress site.
 
 ## Changelog
+
+### 2.3.0
+* One-click setup: "Connect to DailyStory" signs in to DailyStory and fills in your Site ID and Site URL
+* Paste your whole tracking code instead of copying the Site ID and Site URL separately
+* Site IDs are checked with DailyStory when saved
+* The settings page opens after activation, and shows connection status once set up
+* The "not set up" notice now appears only on the Dashboard and Plugins screens
+* Disconnect from DailyStory, optionally keeping tracking in place
+* Fixed: saving settings without the WooCommerce section could switch store tracking off
 
 ### 2.2.0
 * WooCommerce: product view, add to cart and cart activity tracking for abandoned cart automations
