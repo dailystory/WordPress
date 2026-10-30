@@ -1,98 +1,128 @@
 # Email and SMS marketing for WordPress by DailyStory
 Contributors: dailystory, roberthoward
-Tags: marketing, sales, automation, woocommerce, email
+Tags: email marketing, sms, woocommerce, popup, marketing automation
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.2
 Stable tag: 2.3.0
 License: GNU General Public License v2.0 or later
 
-[DailyStory](https://www.dailystory.com/) automates outbound sales, client engagement, and follow-up in order to generate interest at the top of the sales funnel. It results in a 100 times greater cost efficiency per acquired customer compared to traditional advertising methods. By utilizing personalized email and text message marketing, it also increases engagement.
+Add DailyStory popups, web forms and visitor tracking to WordPress, and turn WooCommerce store activity into email and SMS automations.
 
-The DailyStory plugin makes it easy to integrate popups, web forms, conversion tracking and additional functionalities to your current WordPress website:
+## Description
 
-* Embed DailyStory's drag-and-drop web forms directly into any post, page or sidebar
-* Utilize visitor tracking to trigger automations when people visit pages in your website
-* Use popups to capture visitors when they arrive or when they are exiting your website
+[DailyStory](https://www.dailystory.com/) is a marketing automation platform for email, text messaging (SMS), push notifications, popups, web forms and landing pages. This plugin connects your WordPress site to your DailyStory account, so you can capture leads on your site and follow up with them automatically.
+
+Setup takes about a minute. Click **Connect to DailyStory**, sign in, and choose your account. The plugin installs your tracking code for you, with nothing to copy and paste.
 
 Watch the WordPress plugin in action:
 [youtube https://www.youtube.com/watch?v=P5hjQqR2Ivg]
 
-## Automate drip campaigns, abandon carts, and more
-DailyStory's simple drag-and-drop automation builder to efficiently design automated drip campaigns, shopping cart abandonment notifications, shipping confirmations, and more, all seamlessly integrated with your preferred platforms such as WooCommerce, Shopify, BigCommerce, Square and more.
+### What the plugin adds to your site
 
-## DailyStory Features
-Visit [dailystory.com](https://www.dailystory.com/features/) to see all our great features and capabilities including:
+* **Visitor tracking.** DailyStory's tracking code goes on every page, so you can see which pages contacts visit and start automations from that activity.
+* **Popups.** Popups you design in DailyStory appear on your site automatically, and you choose where they show. Use a shortcode to show one on a specific page, or when a visitor is about to leave.
+* **Web forms.** Embed DailyStory forms in any post, page or widget. Submissions go straight into DailyStory as contacts and can start an automation.
+* **Signed-in visitors.** When a logged-in user visits, the plugin tells DailyStory who they are, so their activity is tied to their contact record.
 
-* Email Marketing
-* SMS Marketing
-* App Push Notifications
-* Web Push Notifications
-* Visitor tracking
-* Web Forms
-* Popup Forms
-* Landing Pages
-* Automations
-* QR Codes
+### WooCommerce
+
+When WooCommerce is active, the plugin also sends store activity to DailyStory:
+
+* **Product views,** for browse-abandonment emails and texts
+* **Add to cart and cart contents,** for abandoned-cart automations, including shoppers who never reached checkout
+* **Completed orders,** recorded as a conversion so revenue is credited to the email, text or popup that drove it
+
+Store tracking is on by default and can be turned off on the settings page. The plugin is compatible with WooCommerce High-Performance Order Storage (HPOS).
+
+### Shortcodes
+
+* `[ds-webform id="FORM_ID"]` embeds a DailyStory web form. Add `redirect_url="https://..."` to send people to a page after they submit.
+* `[ds-popup id="POPUP_ID"]` shows a popup when the page loads.
+* `[ds-exitintent id="POPUP_ID"]` shows a popup when a visitor is about to leave the page.
+
+You'll find each form's and popup's ID in DailyStory.
+
+### What you can do with DailyStory
+
+Build drip campaigns, abandoned-cart reminders, post-purchase follow-ups, welcome series and more with DailyStory's drag-and-drop automation builder. Then reach people by:
+
+* Email marketing
+* SMS and MMS text messaging
+* Web and mobile app push notifications
+* Popups, web forms and landing pages
+* Segments, lead scoring and QR codes
+
+DailyStory also connects to Shopify, BigCommerce, Square and other platforms. [See all features](https://www.dailystory.com/features/).
 
 ## Installation
 
-Installing the DailyStory WordPress Plugin is simple. Add it to your site from your WordPress Plugin Dashboard, then click "Connect to DailyStory" and sign in. Your Site ID and Site URL are filled in for you.
-
 ### From your WordPress dashboard
-1. Visit "Plugins > Add New"
-2. Search for "DailyStory"
-3. Activate the plugin
-4. The DailyStory settings page opens. Click "Connect to DailyStory"
-5. Sign in to DailyStory, choose your account and click "Allow"
+1. Go to **Plugins > Add New** and search for "DailyStory"
+2. Click **Install Now**, then **Activate**
+3. The DailyStory settings page opens. Click **Connect to DailyStory**
+4. Sign in to DailyStory, choose your account and click **Allow**
 
-Prefer not to sign in from WordPress? On the settings page, paste your Site ID or the whole tracking code from Settings > Website in DailyStory and click "Save Settings".
+That's it. Your popups and tracking are live.
 
-### From WordPress.org
-1. Download the plugin
-2. Unzip the DailyStory plugin into a local directory on your computer
-3. Upload the "dailystory" directory to your '/wp-content/plugins/' directory, using your favorite method (ftp, sftp, scp, etc...)
-4. Open your WordPress admin dashboard and click "Plugins" in the left sidebar
-5. Activate the plugin
-6. The DailyStory settings page opens. Click "Connect to DailyStory", or paste your Site ID or tracking code
+### Prefer not to sign in from WordPress?
+On the settings page (**Settings > DailyStory**), paste the tracking code from **Settings > Website** in DailyStory and click **Save Settings**. The plugin reads your Site ID and Site URL from the code and checks them with DailyStory.
 
-### Clone from GitHub
-You can [clone the DailyStory WordPress plugin from our GitHub repository](https://github.com/DailyStory/WordPress/). If you fix bugs, or add features, we would appreciate a pull request so we can share these with other users in the DailyStory community.
+### Manual upload
+1. Download the plugin and unzip it
+2. Upload the `dailystory` folder to `/wp-content/plugins/`
+3. Activate the plugin under **Plugins**, then connect as above
 
-See [our detailed setup instructions and guides published on our website](https://docs.dailystory.com/article/qfl7mox9nn-install-daily-story-tracking-tag-in-word-press).
+See our [WordPress setup guide](https://docs.dailystory.com/article/qfl7mox9nn-install-daily-story-tracking-tag-in-word-press) for more detail.
 
 ## Frequently Asked Questions
 
-### What is DailyStory?
-DailyStory is a [Marketing Automation Platform](https://www.dailystory.com/) that helps you find new customers and keep them.
-
-### Can I use my existing WordPress theme?
-Yes, DailyStory works out-of-the-box with all WordPress themes. If you find a problem though, we’d be happy to fix it!
-
-### I installed this plugin but don't have a DailyStory account. How can I get one?
-The easiest way to try DailyStory is to [start for free](https://dailystory.com/pricing/). Or, you can sign up for a DailyStory commercial account - see our [license and pricing page](https://www.dailystory.com/pricing/).
-
-### Where can I get support?
-For technical questions, please visit Stack Overflow’s [DailyStory tag](http://stackoverflow.com/). For all other questions, [please contact us](https://www.dailystory.com/contact-us/).
+### Do I need a DailyStory account?
+Yes. The plugin connects your site to DailyStory, where you design your popups, forms and automations. [Start for free](https://dailystory.com/pricing/).
 
 ### What are the requirements?
-This plugin requires a DailyStory account. Click "Connect to DailyStory" on the plugin's settings page to set it up, or paste the tracking code from Settings > Website in DailyStory.
+WordPress 5.0 or later and PHP 7.2 or later. The plugin is tested up to WordPress 6.8.
 
-One-click connect needs your WordPress admin to use https. Sites on plain http can still paste their tracking code.
+One-click **Connect to DailyStory** needs your WordPress admin to use https. Sites on plain http can paste their tracking code instead.
 
-If you are not a customer you can [sign up for the free plan](https://dailystory.com/pricing/) to get your DailyStory Site ID and try our WordPress integration.
+### I have more than one DailyStory account. Which one gets connected?
+The account you're signed in to in DailyStory when you click **Allow**. To connect a different one, switch accounts in DailyStory first. If your site already tracks into another account, the plugin asks before switching.
 
-The plugin requires WordPress 5.0 and PHP 7.2 or greater, and is tested up to WordPress 6.8.
+### What happens if I disconnect?
+Disconnecting removes the plugin's access to your DailyStory account. Tracking, popups and forms keep working unless you also tick **Also remove the Site ID**. You can also revoke the connection from DailyStory's Connected Apps page.
 
-### What is the DailyStory Tracking Tag?
-The DailyStory tracking tag (about 12 lines of JavaScript) is used by DailyStory to track customer activity as they browse your web or mobile experience. It also adds the ability to render popups, content A/B testing, run page triggers, page covers, surveys and more.
+### Does it work with my theme?
+Yes. DailyStory works with any WordPress theme. If something doesn't look right, [let us know](https://www.dailystory.com/contact-us/) and we'll help.
 
-### Where can I get the bleeding edge version of DailyStory?
-The source for the DailyStory plugin is maintained on GitHub. You can [clone the DailyStory WordPress plugin](https://github.com/DailyStory/WordPress/) from our GitHub repository and submit pull requests. Major changes are then merged into the WordPress [https://plugins.svn.wordpress.org/dailystory/](https://plugins.svn.wordpress.org/dailystory/)
+### What is the DailyStory tracking code?
+A short script that loads in the background without slowing your pages. It records page visits for contacts, shows your popups, and runs DailyStory features such as page triggers and surveys.
+
+### Can I turn off visitor identification or store tracking?
+Store tracking can be switched off on the settings page. Developers can also use these filters:
+
+* `dailystory_identify_visitor`: return an empty array to stop sending signed-in visitors' details
+* `dailystory_woocommerce_tracking_enabled`: return `false` to turn off store tracking
+
+### Where can I get support?
+[Contact us](https://www.dailystory.com/contact-us/) or browse the [DailyStory documentation](https://docs.dailystory.com/).
+
+### Where can I find the source code?
+On [GitHub](https://github.com/DailyStory/WordPress/). Bug reports and pull requests are welcome.
+
+## External services
+
+This plugin connects your site to DailyStory, a third-party service. Data is sent only after you connect an account or enter a Site ID. DailyStory's [Terms of Service](https://www.dailystory.com/legal/terms-of-service/) and [Privacy Policy](https://www.dailystory.com/legal/privacy-policy/) apply.
+
+* **DailyStory tracking code.** Loaded on every front-end page from your account's data center (for example `us-1.dailystory.com`). It records the pages visitors view, using a DailyStory cookie. For logged-in users it also sends their email address, first and last name, and (with WooCommerce) billing phone number. With WooCommerce it also sends product views, cart contents, and completed orders (order number, total, currency and items).
+* **DailyStory web forms.** The `[ds-webform]` shortcode loads the form from `forms.dailystory.com`. The form's scripts and styles load from `pages.dailystory.com`, `forms.dailystory.com`, `cdnjs.cloudflare.com` and `cdn.jsdelivr.net` (the phone number input). Visitors' form entries go to DailyStory.
+* **Connecting your account.** **Connect to DailyStory** uses `app.dailystory.com`. The plugin sends your site's name, address and settings-page address so DailyStory can recognize your site. It receives your account name, Site ID and Site URL. Once a day it checks with DailyStory that the connection is still active.
+* **Site ID check.** When you save a Site ID, the plugin asks your DailyStory data center whether that Site ID exists.
+
+You are responsible for telling your visitors about this tracking, for example in your privacy policy or cookie notice.
 
 ## Screenshots
-1. **Set DailyStory Site ID** - After the plugin is installed and activated, set your DailyStory Site ID and click "Save Settings".
-2. **Web Form Designer** - Design web forms within DailyStory and then use WordPress shortcodes to easily embed them in your WordPress site.
+1. **DailyStory settings** - Connect your DailyStory account in one click, or paste your tracking code.
+2. **Web Form Designer** - Design web forms in DailyStory, then embed them on your WordPress site with a shortcode.
 
 ## Changelog
 
