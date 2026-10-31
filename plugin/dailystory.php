@@ -2,8 +2,8 @@
 /*
 Plugin Name: DailyStory Marketing Automation
 Plugin URI: https://docs.dailystory.com/article/8omibw2171-integrations-wordpress
-Description: The DailyStory plugin simplifies the process of adding popups, web forms, conversion tracking, WooCommerce store tracking, and other features to your WordPress website.
-Version: 2.3.0
+Description: Connect WordPress to DailyStory for popups, web forms and visitor tracking, and turn WooCommerce checkouts and orders into email and SMS automations such as abandoned cart recovery.
+Version: 2.4.0
 Requires at least: 5.0
 Requires PHP: 7.2
 Author: DailyStory
@@ -41,7 +41,7 @@ class DailyStoryPlugin {
 		// behind the header (as it did at 2.1.4 through 2.1.6) asset updates
 		// ship under a stale version string and stay cached.
 		if ( !defined('DAILYSTORY_PLUGIN_VERSION') )
-			define('DAILYSTORY_PLUGIN_VERSION', '2.3.0');
+			define('DAILYSTORY_PLUGIN_VERSION', '2.4.0');
 
 		// ──────────────────────────────────────────────
 		// Load required files
@@ -50,6 +50,8 @@ class DailyStoryPlugin {
 		require_once(DAILYSTORY_PLUGIN_PATH . '/includes/class-dailystory-tracking-pixel.php');
 		require_once(DAILYSTORY_PLUGIN_PATH . '/includes/class-dailystory-woocommerce.php');
 		require_once(DAILYSTORY_PLUGIN_PATH . '/includes/class-dailystory-connect.php');
+		require_once(DAILYSTORY_PLUGIN_PATH . '/includes/class-dailystory-store-events.php');
+		require_once(DAILYSTORY_PLUGIN_PATH . '/includes/class-dailystory-feed.php');
 
 		// The admin class pulls in wp-admin/includes/plugin.php, so it must not
 		// load on front-end requests.
@@ -67,6 +69,10 @@ class DailyStoryPlugin {
 		// Daily check that the DailyStory connection is still live. Cron runs on
 		// front-end requests too, so this is registered outside the admin.
 		add_action( DailyStoryConnect::CRON_HOOK, array('DailyStoryConnect', 'cron_verify') );
+
+		// Queued store events are sent from cron and Action Scheduler runs, so
+		// their handler is registered on every request
+		DailyStoryStoreEvents::register_handler();
 
 		// Send a newly activated plugin to its settings page
 		register_activation_hook(__FILE__, array('DailyStoryPlugin', 'dailystory_activate'));
@@ -94,6 +100,11 @@ class DailyStoryPlugin {
 
 	public static function dailystory_activate () {
 		set_transient('dailystory_activation_redirect', 1, 30);
+
+		// New installs add featured images to the RSS feed. Sites upgrading
+		// from an earlier version keep their feed as it is until they opt in.
+		if ( false === get_option('dailystory_settings') )
+			self::update_settings(array('dailystory_feed_images' => 1));
 	}
 
 	// ──────────────────────────────────────────────
@@ -124,9 +135,21 @@ class DailyStoryPlugin {
 		// Initialize shortcodes
 		$ds_shortcodes = new DailyStoryShortCodes();
 
+		// Featured images in the RSS feed
+		if ( DailyStoryFeed::is_enabled() )
+			$ds_feed = new DailyStoryFeed();
+
 		// Initialize WooCommerce store tracking when WooCommerce is present
 		if ( DailyStoryWooCommerce::is_woocommerce_active() ) {
 			$ds_woocommerce = new DailyStoryWooCommerce();
+
+			// Cart recovery links from abandoned cart emails
+			DailyStoryStoreEvents::register_recovery();
+
+			// Checkouts and orders, reported from the server to start the
+			// store automations. Needs a connection granted website:track.
+			if ( DailyStoryStoreEvents::is_enabled() )
+				$ds_store_events = new DailyStoryStoreEvents();
 		}
 	}
 
@@ -138,6 +161,12 @@ class DailyStoryPlugin {
 		delete_option(DailyStoryConnect::CLIENT_OPTION);
 		delete_option(DailyStoryConnect::LOCK_OPTION);
 		delete_option('dailystory_tracking_check');
+
+		// Drop any store events still waiting to be sent
+		if ( function_exists('as_unschedule_all_actions') )
+			as_unschedule_all_actions(DailyStoryStoreEvents::HOOK);
+
+		wp_unschedule_hook(DailyStoryStoreEvents::HOOK);
 	}
 }
 DailyStoryPlugin::get_instance();	// create an instance

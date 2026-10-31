@@ -152,7 +152,7 @@ class DailyStoryTrackingPixel {
         echo '<script type="text/javascript">' . "\n";
         echo '    window.dsIdentity = ' . wp_json_encode($identity) . ';' . "\n";
         echo '    window.addEventListener("ds_ready", function () {' . "\n";
-        echo '        window.Ds && window.Ds.sendEvent("wordpress", "identify", window.dsIdentity);' . "\n";
+        echo '        window.Ds && window.Ds.sendEvent("wordpress", "identify", JSON.stringify(window.dsIdentity));' . "\n";
         echo '    });' . "\n";
         echo '</script>' . "\n";
     }

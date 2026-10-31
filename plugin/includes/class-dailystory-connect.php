@@ -25,9 +25,16 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Do not allow direct access
 
 class DailyStoryConnect {
 
-    // The only scope the plugin asks for. Unlisted on the server, so it has to
-    // be named in every request.
-    const SCOPE = 'website:connect';
+    // The scopes the plugin asks for. Both are unlisted on the server, so they
+    // have to be named in every request:
+    //
+    //   - website:connect reads the account's name, Site ID and Site URL
+    //   - website:track creates contacts and records store events, which is
+    //     what starts the store automations (see class-dailystory-store-events.php)
+    const SCOPE = 'website:connect website:track';
+
+    // The scope that store events need
+    const TRACK_SCOPE = 'website:track';
 
     // Options. Neither is autoloaded: they are only needed on the settings
     // page, the OAuth callback and the daily check.
@@ -96,6 +103,23 @@ class DailyStoryConnect {
         return ! empty($connection['tenant_uid']);
     }
 
+    // ──────────────────────────────────────────────
+    // True when the connection may record contacts and store events. A site
+    // connected by 2.3.0 was only granted website:connect and has to reconnect
+    // once to approve website:track.
+    // ──────────────────────────────────────────────
+    public static function can_track () {
+
+        $connection = self::get_connection();
+
+        if ( empty($connection['tenant_uid']) || self::STATUS_CONNECTED !== $connection['status'] )
+            return false;
+
+        $granted = isset($connection['scope']) ? explode(' ', $connection['scope']) : array();
+
+        return in_array(self::TRACK_SCOPE, $granted, true);
+    }
+
     private static function save_connection ( $connection ) {
         update_option(self::CONNECTION_OPTION, $connection, false);
     }
@@ -103,15 +127,19 @@ class DailyStoryConnect {
     // ──────────────────────────────────────────────
     // Register this site as an OAuth client, or reuse the registration.
     //
-    // A registration is tied to its redirect_uri, so a site whose admin URL
-    // has changed (moved domain, switched to https) registers again.
+    // A registration is tied to its redirect_uri and bounded by its scope, so
+    // a site whose admin URL has changed (moved domain, switched to https), or
+    // one registered by an older version that asked for fewer scopes, registers
+    // again.
     // ──────────────────────────────────────────────
     private static function ensure_client () {
 
         $client       = get_option(self::CLIENT_OPTION);
         $redirect_uri = self::redirect_uri();
 
-        if ( is_array($client) && ! empty($client['client_id']) && isset($client['redirect_uri']) && $client['redirect_uri'] === $redirect_uri )
+        if ( is_array($client) && ! empty($client['client_id'])
+            && isset($client['redirect_uri']) && $client['redirect_uri'] === $redirect_uri
+            && isset($client['scope']) && $client['scope'] === self::SCOPE )
             return $client['client_id'];
 
         $host = wp_parse_url(home_url(), PHP_URL_HOST);
@@ -141,6 +169,7 @@ class DailyStoryConnect {
         update_option(self::CLIENT_OPTION, array(
             'client_id'    => sanitize_text_field($body['client_id']),
             'redirect_uri' => $redirect_uri,
+            'scope'        => self::SCOPE,
         ), false);
 
         return sanitize_text_field($body['client_id']);
@@ -257,6 +286,7 @@ class DailyStoryConnect {
             'access_token'   => self::encrypt($tokens['access_token']),
             'access_expires' => $tokens['access_expires'],
             'refresh_token'  => self::encrypt($tokens['refresh_token']),
+            'scope'          => $tokens['scope'],
             'tenant_uid'     => $website['tenantUid'],
             'account_name'   => $website['name'],
             'app_url'        => $website['appUrl'],
@@ -461,6 +491,10 @@ class DailyStoryConnect {
             $connection['access_expires'] = $tokens['access_expires'];
             $connection['refresh_token']  = self::encrypt($tokens['refresh_token']);
 
+            // The server narrows a grant when its user loses a permission
+            if ( '' !== $tokens['scope'] )
+                $connection['scope'] = $tokens['scope'];
+
             self::save_connection($connection);
 
             return $tokens['access_token'];
@@ -509,7 +543,65 @@ class DailyStoryConnect {
             'access_token'   => (string) $body['access_token'],
             'refresh_token'  => (string) $body['refresh_token'],
             'access_expires' => time() + ( isset($body['expires_in']) ? (int) $body['expires_in'] : 3600 ),
+            'scope'          => isset($body['scope']) ? sanitize_text_field($body['scope']) : '',
         );
+    }
+
+    // ──────────────────────────────────────────────
+    // Call the DailyStory API with the connection's token.
+    //
+    // Returns the response's "Response" object, or a WP_Error. A 401 is tried
+    // once more with a freshly refreshed token, since an access token can be
+    // revoked or expire between being read and being used.
+    // ──────────────────────────────────────────────
+    public static function api ( $method, $path, $query = array(), $body = null, $retry = true ) {
+
+        $token = self::get_access_token();
+
+        if ( is_wp_error($token) )
+            return $token;
+
+        $args = array(
+            'method'  => $method,
+            'timeout' => 15,
+            'headers' => array( 'Authorization' => 'Bearer ' . $token ),
+        );
+
+        if ( null !== $body ) {
+            $args['headers']['Content-Type'] = 'application/json';
+            $args['body'] = wp_json_encode($body);
+        }
+
+        $response = wp_remote_request(add_query_arg(array_map('rawurlencode', $query), self::app_url() . $path), $args);
+
+        if ( is_wp_error($response) )
+            return new WP_Error('dailystory_unreachable', 'DailyStory could not be reached: ' . $response->get_error_message());
+
+        $code = (int) wp_remote_retrieve_response_code($response);
+
+        if ( 401 === $code && $retry ) {
+
+            $connection = self::get_connection();
+            $connection['access_expires'] = 0;
+            self::save_connection($connection);
+
+            return self::api($method, $path, $query, $body, false);
+        }
+
+        if ( 401 === $code || 403 === $code ) {
+            self::mark_reconnect('DailyStory refused this site\'s connection. Please reconnect.');
+            return new WP_Error('dailystory_unauthorized', 'This site needs to be reconnected to DailyStory.');
+        }
+
+        $decoded = json_decode(wp_remote_retrieve_body($response), true);
+
+        if ( $code < 200 || $code >= 300 || ! is_array($decoded) )
+            return new WP_Error('dailystory_unreachable', 'DailyStory returned an unexpected response (HTTP ' . $code . ').');
+
+        if ( empty($decoded['Status']) )
+            return new WP_Error('dailystory_refused', ! empty($decoded['Message']) ? sanitize_text_field($decoded['Message']) : 'DailyStory refused the request.');
+
+        return isset($decoded['Response']) && is_array($decoded['Response']) ? $decoded['Response'] : array();
     }
 
     // ──────────────────────────────────────────────

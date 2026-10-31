@@ -5,16 +5,18 @@
 // The DailyStory WooCommerce integration is otherwise a server-side polling
 // job, which structurally cannot see a cart that never became an order, a
 // product view, or anything at all in less than a sync interval. This class
-// covers that gap from inside the store:
+// covers that gap from the visitor's browser:
 //
-//   - product views and add-to-cart, as DailyStory events
-//   - live cart contents and a recovery URL, for cart-abandoned automations
+//   - product views, add-to-cart and cart changes, as custom DailyStory events
+//     (woocommerce_product_viewed, etc) for segments and custom automations
 //   - a conversion on the order-received page, so revenue is attributable
 //     to the marketing that produced it
 //
 // Everything here uses the documented DailyStory JavaScript API (sendEvent /
-// conversion) and the visitor identity published by the tracking pixel, so it
-// needs no new server endpoint.
+// conversion). The built-in store automations - Cart abandoned, ordered,
+// fulfilled and declined - are started from the server instead, by
+// class-dailystory-store-events.php: browser events are unauthenticated, so
+// DailyStory does not let them start those.
 // ──────────────────────────────────────────────
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Do not allow direct access
@@ -101,11 +103,17 @@ class DailyStoryWooCommerce {
     }
 
     // ──────────────────────────────────────────────
-    // Emit a DailyStory event once the JavaScript API is ready
+    // Emit a DailyStory event once the JavaScript API is ready.
+    //
+    // The action is what DailyStory automations match on, and DailyStory event
+    // names are shared by every source in an account, so they are prefixed
+    // woocommerce_. The value has to be a string: Ds.sendEvent URL-encodes it
+    // as it is, so an object arrived as the text "[object Object]".
     // ──────────────────────────────────────────────
     private static function emit_event ( $action, $value = null ) {
 
-        $payload = ( null === $value ) ? 'null' : wp_json_encode($value);
+        $action  = 'woocommerce_' . $action;
+        $payload = ( null === $value ) ? '""' : wp_json_encode(wp_json_encode($value));
 
         echo "\n<!-- DailyStory WooCommerce: " . esc_html($action) . " -->\n";
         echo '<script type="text/javascript">' . "\n";
@@ -193,12 +201,12 @@ class DailyStoryWooCommerce {
     }
 
     // ──────────────────────────────────────────────
-    // Cart state on every page: contents, value and a recovery URL.
+    // Cart contents, value and a recovery URL, whenever the cart changes.
     //
-    // This is what makes true cart abandonment possible. A WooCommerce cart
-    // that is never checked out produces no order row at all, so the polling
-    // sync can never see it - the "pending" order status it currently treats
-    // as an abandoned cart is really an abandoned *checkout*.
+    // A WooCommerce cart that is never checked out produces no order row at
+    // all, so the polling sync can never see it. This is sent once per change
+    // of cart, not on every page view, which would repeat the same event for
+    // as long as the cart has items.
     // ──────────────────────────────────────────────
     public function render_cart_state () {
 
@@ -217,8 +225,15 @@ class DailyStoryWooCommerce {
 
         $cart = WC()->cart;
 
-        if ( $cart->is_empty() )
+        if ( $cart->is_empty() || ! WC()->session )
             return;
+
+        $hash = $cart->get_cart_hash();
+
+        if ( WC()->session->get('dailystory_cart_hash') === $hash )
+            return;
+
+        WC()->session->set('dailystory_cart_hash', $hash);
 
         $items = array();
 
@@ -226,6 +241,11 @@ class DailyStoryWooCommerce {
 
             if ( empty($item['data']) )
                 continue;
+
+            // The event travels in a URL and DailyStory keeps 2,048 characters
+            // of it, so a large cart is summarized by its first ten lines
+            if ( count($items) >= 10 )
+                break;
 
             $product = $item['data'];
 
@@ -255,8 +275,11 @@ class DailyStoryWooCommerce {
     // Conversion on the order-received page.
     //
     // Attributes order revenue to the marketing that produced it, the same way
-    // the Shopify integration does. The polling sync writes the authoritative
-    // sale row; this is what ties it to a campaign.
+    // the Shopify integration does, including passing the buyer's email and
+    // phone so a guest's purchase is credited to their contact. The polling
+    // sync writes the authoritative sale row; this is what ties it to a
+    // campaign. The order itself reaches DailyStory from the server
+    // (class-dailystory-store-events.php), which is what starts Cart ordered.
     // ──────────────────────────────────────────────
     public function render_conversion ( $order_id ) {
 
@@ -277,32 +300,17 @@ class DailyStoryWooCommerce {
 
         $total = (float) $order->get_total();
 
-        $items = array();
-
-        foreach ( $order->get_items() as $item ) {
-
-            $items[] = array(
-                'productId' => $item->get_product_id(),
-                'name'      => $item->get_name(),
-                'quantity'  => (int) $item->get_quantity(),
-                'lineTotal' => (float) $item->get_total(),
-            );
-        }
+        $buyer = array_filter(array(
+            'email' => $order->get_billing_email(),
+            'phone' => $order->get_billing_phone(),
+        ));
 
         echo "\n<!-- DailyStory WooCommerce: conversion -->\n";
         echo '<script type="text/javascript">' . "\n";
         echo '(function(){' . "\n";
         echo '    var send = function () {' . "\n";
         echo '        if (!window.Ds) return;' . "\n";
-        echo '        window.Ds.conversion(' . wp_json_encode(self::FUNNEL_UUID) . ', ' . wp_json_encode($total) . ');' . "\n";
-        echo '        window.Ds.sendEvent("woocommerce", "order_completed", ' . wp_json_encode(array(
-                         'orderId'     => $order->get_id(),
-                         'orderNumber' => $order->get_order_number(),
-                         'total'       => $total,
-                         'currency'    => $order->get_currency(),
-                         'status'      => $order->get_status(),
-                         'items'       => $items,
-                     )) . ');' . "\n";
+        echo '        window.Ds.conversion(' . wp_json_encode(self::FUNNEL_UUID) . ', ' . wp_json_encode($total) . ', ' . wp_json_encode((object) $buyer) . ');' . "\n";
         echo '    };' . "\n";
         echo '    if (window.Ds) { send(); } else { window.addEventListener("ds_ready", send); }' . "\n";
         echo '})();' . "\n";

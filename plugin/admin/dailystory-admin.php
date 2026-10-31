@@ -200,6 +200,21 @@ class DailyStoryPluginAdmin {
                 'dailystory_woocommerce_section'
             );
         }
+
+        add_settings_section(
+            'dailystory_blog_section',
+            'Blog',
+            array($this, 'dailystory_blog_section_heading'),
+            DAILYSTORY_ADMIN_PAGE
+        );
+
+        add_settings_field(
+            'dailystory_feed_images',
+            'RSS feed',
+            array($this, 'dailystory_feed_images_callback'),
+            DAILYSTORY_ADMIN_PAGE,
+            'dailystory_blog_section'
+        );
     }
 
     function dailystory_settings_section_heading ( )
@@ -211,6 +226,11 @@ class DailyStoryPluginAdmin {
     function dailystory_woocommerce_section_heading ( )
     {
         echo '<p>WooCommerce was detected on this site. Store tracking sends product views, cart activity and completed orders to DailyStory so you can build abandoned cart and post-purchase automations.</p>';
+    }
+
+    function dailystory_blog_section_heading ( )
+    {
+        echo '<p>Share your posts in DailyStory emails with the RSS widget, or send a newsletter automatically when you publish. Your feed is at <a target="_blank" href="' . esc_url(get_feed_link()) . '">' . esc_html(get_feed_link()) . '</a>.</p>';
     }
 
     // ──────────────────────────────────────────────
@@ -267,7 +287,7 @@ class DailyStoryPluginAdmin {
 
         <div class="card" style="max-width: 640px;">
             <h2><?php echo DailyStoryConnect::can_connect() ? 'Or enter your Site ID' : 'Enter your Site ID'; ?></h2>
-            <p>Paste your Site ID, or the whole tracking code, from <a target="_blank" href="<?php echo esc_url(self::TRACKING_CODE_URL); ?>">Settings &rarr; Website</a> in DailyStory. The tracking code includes your Site URL too.</p>
+            <p>Paste your Site ID, or the whole tracking code, from <a target="_blank" href="<?php echo esc_url(self::TRACKING_CODE_URL); ?>">Account Settings &rarr; Setup &rarr; Website</a> in DailyStory. The tracking code includes your Site URL too.</p>
             <form method="post" action="options.php">
                 <?php settings_fields('dailystory_settings_options'); ?>
                 <p>
@@ -295,6 +315,13 @@ class DailyStoryPluginAdmin {
         $connection = DailyStoryConnect::get_connection();
         $connected  = ! empty($connection['tenant_uid']);
         $app_url    = ( $connected && ! empty($connection['app_url']) ) ? $connection['app_url'] : DailyStoryConnect::app_url();
+
+        // Store events need WooCommerce, store tracking switched on, and a
+        // connection granted website:track. A site connected by 2.3.0 was not
+        // asked for it and has to reconnect once.
+        $store        = class_exists('DailyStoryWooCommerce') && DailyStoryWooCommerce::is_enabled();
+        $store_events = $store && DailyStoryStoreEvents::is_enabled();
+        $needs_track  = $store && $connected && DailyStoryConnect::STATUS_CONNECTED === $connection['status'] && ! DailyStoryConnect::can_track();
         ?>
         <div class="card" style="max-width: 640px;">
             <h2>Status</h2>
@@ -316,9 +343,19 @@ class DailyStoryPluginAdmin {
                 <?php $this->render_tracking_check($options); ?>
             <?php endif; ?>
 
+            <?php if ( $store_events ) : ?>
+                <p><span class="dashicons dashicons-yes-alt" style="color: #00a32a;"></span> Store automations are on: checkouts and orders reach DailyStory as they happen.</p>
+            <?php elseif ( $needs_track ) : ?>
+                <div class="notice notice-info inline"><p>
+                    <b>Reconnect to turn on real-time store automations.</b> This lets DailyStory start your abandoned cart and order automations the moment a shopper checks out.
+                </p></div>
+            <?php elseif ( $store && ! $connected ) : ?>
+                <p class="description">Connect your account to start your abandoned cart and order automations the moment a shopper checks out.</p>
+            <?php endif; ?>
+
             <p>
                 <a class="button" target="_blank" href="<?php echo esc_url($app_url); ?>">Open DailyStory</a>
-                <?php if ( DailyStoryConnect::can_connect() && ( ! $connected || DailyStoryConnect::STATUS_RECONNECT === $connection['status'] ) ) : ?>
+                <?php if ( DailyStoryConnect::can_connect() && ( ! $connected || DailyStoryConnect::STATUS_RECONNECT === $connection['status'] || $needs_track ) ) : ?>
                     <?php $this->render_action_button('dailystory_connect', $connected ? 'Reconnect' : 'Connect your DailyStory account', 'primary'); ?>
                 <?php endif; ?>
                 <?php if ( $connected && DailyStoryConnect::STATUS_RECONNECT !== $connection['status'] ) : ?>
@@ -577,7 +614,7 @@ class DailyStoryPluginAdmin {
     // ──────────────────────────────────────────────
     // Read the Site ID and Site URL out of a pasted tracking code.
     //
-    // The tracking code on DailyStory's Settings > Website page ends with
+    // The tracking code on DailyStory's Account Settings > Setup > Website page ends with
     // })(window,document,'SITEID') and loads //DATACENTER.dailystory.com/ds/ds.
     // Returns array(site id, site url) - the url is '' if it is not there - or
     // null when the text is not a tracking code.
@@ -673,7 +710,7 @@ class DailyStoryPluginAdmin {
             }
             else {
                 add_settings_error('dailystory_settings', 'dailystory_tenant_uid',
-                    'That doesn\'t look like a Site ID or a DailyStory tracking code. Copy it from Settings > Website in DailyStory and try again.');
+                    'That doesn\'t look like a Site ID or a DailyStory tracking code. Copy it from Account Settings > Setup > Website in DailyStory and try again.');
             }
         }
 
@@ -695,6 +732,11 @@ class DailyStoryPluginAdmin {
 
         unset($output['dailystory_woo_tracking_present']);
 
+        if ( ! empty($input['dailystory_feed_images_present']) || array_key_exists('dailystory_feed_images', $input) )
+            $output['dailystory_feed_images'] = ! empty($input['dailystory_feed_images']) ? 1 : 0;
+
+        unset($output['dailystory_feed_images_present']);
+
         $uid = isset($output['dailystory_tenant_uid']) ? $output['dailystory_tenant_uid'] : '';
         $url = isset($output['dailystory_tenant_url']) ? $output['dailystory_tenant_url'] : '';
 
@@ -714,7 +756,7 @@ class DailyStoryPluginAdmin {
 
             if ( 'not_found' === $checked[ $uid . '|' . $url ] ) {
                 add_settings_error('dailystory_settings', 'dailystory_tenant_uid',
-                    'DailyStory doesn\'t recognize Site ID ' . $uid . '. Check it in Settings > Website in DailyStory and try again. Your previous settings were kept.');
+                    'DailyStory doesn\'t recognize Site ID ' . $uid . '. Check it in Account Settings > Setup > Website in DailyStory and try again. Your previous settings were kept.');
 
                 $output['dailystory_tenant_uid'] = isset($existing['dailystory_tenant_uid']) ? $existing['dailystory_tenant_uid'] : '';
                 $output['dailystory_tenant_url'] = isset($existing['dailystory_tenant_url']) ? $existing['dailystory_tenant_url'] : '';
@@ -796,5 +838,26 @@ class DailyStoryPluginAdmin {
             '<label><input id="dailystory_woo_tracking" type="checkbox" name="dailystory_settings[dailystory_woo_tracking]" value="1" %s/> Send product views, cart activity and completed orders to DailyStory</label>',
             checked($enabled, true, false)
         );
+    }
+
+    // ──────────────────────────────────────────────
+    // Gets the checkbox for featured images in the RSS feed
+    // ──────────────────────────────────────────────
+    function dailystory_feed_images_callback ()
+    {
+        $options = get_option('dailystory_settings');
+
+        // Off unless switched on: new installs get it from activation, and
+        // sites that upgraded keep their feed as it was
+        $enabled = ! empty($options['dailystory_feed_images']);
+
+        echo '<input type="hidden" name="dailystory_settings[dailystory_feed_images_present]" value="1"/>';
+
+        printf(
+            '<label><input id="dailystory_feed_images" type="checkbox" name="dailystory_settings[dailystory_feed_images]" value="1" %s/> Add each post\'s featured image to your RSS feed</label>',
+            checked($enabled, true, false)
+        );
+
+        echo '<p class="description">Shows your images in DailyStory RSS emails and in feed readers.</p>';
     }
 }
