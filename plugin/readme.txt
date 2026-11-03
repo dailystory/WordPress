@@ -4,7 +4,7 @@ Tags: email marketing, sms, woocommerce, popup, marketing automation
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.2
-Stable tag: 2.4.0
+Stable tag: 2.4.1
 License: GNU General Public License v2.0 or later
 
 Add DailyStory popups, web forms and visitor tracking to WordPress, and turn WooCommerce store activity into email and SMS automations.
@@ -132,7 +132,7 @@ Store tracking can be switched off on the settings page. Developers can also use
 * `dailystory_feed_images`: return `true` or `false` to add or leave out featured images in your RSS feed, whatever the setting says. `dailystory_feed_image_size` picks the image size (default `medium_large`)
 
 ### Will the plugin change my RSS feed?
-Only if **Add each post's featured image to your RSS feed** is ticked under **Settings > DailyStory**. It is on for new installs and off for sites upgrading from an earlier version. When on, each post's featured image appears at the top of its feed item, unless the item already shows it.
+Only if **Add each post's featured image to your RSS feed** is ticked under **Settings > DailyStory**. It is on for new installs and off for sites upgrading from an earlier version. When on, each post's featured image appears at the top of its feed item (unless the item already shows it) and as the item's enclosure (unless the post already has one, such as a podcast episode).
 
 ### Where can I get support?
 [Contact us](https://www.dailystory.com/contact-us/) or browse the [DailyStory documentation](https://docs.dailystory.com/).
@@ -157,6 +157,9 @@ You are responsible for telling your visitors about this tracking, for example i
 2. **Web Form Designer** - Design web forms in DailyStory, then embed them on your WordPress site with a shortcode.
 
 ## Changelog
+
+### 2.4.1
+* Blog: featured images are also added to each RSS and Atom item as an enclosure, for feed readers and importers that do not look for images in the post text
 
 ### 2.4.0
 * WooCommerce: checkouts and orders now start DailyStory's built-in store automations (cart abandoned, cart purchased, order shipped and payment declined) the moment they happen, sent from your server

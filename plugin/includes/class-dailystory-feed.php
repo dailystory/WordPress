@@ -35,6 +35,76 @@ class DailyStoryFeed {
         // Late, so the image goes in front of anything other plugins add
         add_filter('the_excerpt_rss', array($this, 'add_featured_image'), 20);
         add_filter('the_content_feed', array($this, 'add_featured_image'), 20);
+
+        // The image as its own element too, for readers and importers that don't look in the text
+        add_action('rss2_item', array($this, 'add_rss_enclosure'));
+        add_action('atom_entry', array($this, 'add_atom_enclosure'));
+    }
+
+    public function add_rss_enclosure () {
+
+        $image = self::enclosure();
+
+        if ( $image )
+            printf("\t\t<enclosure url=\"%s\" length=\"%d\" type=\"%s\" />\n", esc_url($image['url']), $image['length'], esc_attr($image['type']));
+    }
+
+    public function add_atom_enclosure () {
+
+        $image = self::enclosure();
+
+        if ( $image )
+            printf("\t\t<link rel=\"enclosure\" href=\"%s\" length=\"%d\" type=\"%s\" />\n", esc_url($image['url']), $image['length'], esc_attr($image['type']));
+    }
+
+    // ──────────────────────────────────────────────
+    // The current post's featured image as an enclosure: url, length in
+    // bytes and mime type, or null.
+    //
+    // Skipped when the post already has an enclosure (a podcast episode):
+    // readers take only the first one, and that one is the media.
+    // ──────────────────────────────────────────────
+    private static function enclosure () {
+
+        $post = get_post();
+
+        if ( ! $post || ! has_post_thumbnail($post) || get_post_meta($post->ID, 'enclosure') )
+            return null;
+
+        $image_id = get_post_thumbnail_id($post);
+        $size     = apply_filters('dailystory_feed_image_size', self::IMAGE_SIZE);
+        $image    = wp_get_attachment_image_src($image_id, $size);
+
+        if ( ! $image )
+            return null;
+
+        // WordPress 6.0+ records each size's file size; older sites read it from disk
+        $meta   = wp_get_attachment_metadata($image_id);
+        $length = 0;
+        $type   = get_post_mime_type($image_id);
+
+        if ( is_array($meta) && ! empty($meta['sizes'][$size]['filesize']) && $image[3] ) {
+            $length = (int) $meta['sizes'][$size]['filesize'];
+            $type   = ! empty($meta['sizes'][$size]['mime-type']) ? $meta['sizes'][$size]['mime-type'] : $type;
+        }
+        elseif ( is_array($meta) && ! empty($meta['filesize']) && ! $image[3] ) {
+            $length = (int) $meta['filesize'];
+        }
+        else {
+            $file = get_attached_file($image_id);
+
+            if ( $file && $image[3] && ! empty($meta['sizes'][$size]['file']) )
+                $file = path_join(dirname($file), $meta['sizes'][$size]['file']);
+
+            if ( $file && file_exists($file) )
+                $length = (int) filesize($file);
+        }
+
+        return array(
+            'url'    => $image[0],
+            'length' => $length,
+            'type'   => $type ? $type : 'image/jpeg',
+        );
     }
 
     public function add_featured_image ( $content ) {

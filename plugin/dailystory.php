@@ -3,7 +3,7 @@
 Plugin Name: DailyStory Marketing Automation
 Plugin URI: https://docs.dailystory.com/article/8omibw2171-integrations-wordpress
 Description: Connect WordPress to DailyStory for popups, web forms and visitor tracking, and turn WooCommerce checkouts and orders into email and SMS automations such as abandoned cart recovery.
-Version: 2.4.0
+Version: 2.4.1
 Requires at least: 5.0
 Requires PHP: 7.2
 Author: DailyStory
@@ -41,7 +41,7 @@ class DailyStoryPlugin {
 		// behind the header (as it did at 2.1.4 through 2.1.6) asset updates
 		// ship under a stale version string and stay cached.
 		if ( !defined('DAILYSTORY_PLUGIN_VERSION') )
-			define('DAILYSTORY_PLUGIN_VERSION', '2.4.0');
+			define('DAILYSTORY_PLUGIN_VERSION', '2.4.1');
 
 		// ──────────────────────────────────────────────
 		// Load required files
